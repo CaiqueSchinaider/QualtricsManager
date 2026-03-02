@@ -1,0 +1,70 @@
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Julius+Sans+One&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Protest+Strike&family=Special+Gothic+Expanded+One&display=swap");
+@import "tailwindcss";
+
+
+@theme {
+  --color-*: initial;
+  --color-green: #22c55e;
+  --color-schin-cyan: #00ffb2;
+  --color-red: #ff4c4c;
+  --color-schin-black: #0d0d0d;
+  --color-schin-gray-light: #b5b5b5;
+  --color-schin-gray-medium: #7c7c7c;
+  --color-schin-gray-strong: #7c7c7c;
+  --color-schin-white: #ffffff;
+  --color-schin-white-cool: #f2f2f2;
+  --color-schin-white-neutro: #e6e6e6;
+  --font-sans: "Cairo", sans-serif;
+  --font-protest: "Protest Strike", sans-serif;
+  --font-elegante: "Cormorant Garamond", serif;
+  --font-bebas: "Bebas Neue", sans-serif;
+  --font-poppins: "Poppins", sans-serif;
+  --font-alans: "Alan Sans", sans-serif;
+  --font-helvetica: "Helvetica", "Arial", sans-serif;
+  --font-adidas: "AdiHaus", "Helvetica", "Arial", sans-serif;
+  --font-gothic: "Special Gothic Expanded One", sans-serif;
+  --font-julio: "Julius Sans One", sans-serif;
+}
+
+.carousel .control-arrow {
+  transform: scale(2) !important;
+  background-color: transparent !important;
+}
+.carousel .control-arrow:hover {
+  transform: scale(2.4) !important;
+  background-color: transparent !important;
+}
+
+.carousel .control-dots .dot {
+  width: 16px !important;
+  height: 16px !important;
+  border-radius: 5px !important;
+  margin: 0 6px;
+  background: #00ffb2;
+  opacity: 0.4 !important;
+  box-shadow: none;
+}
+
+/* Bolinha ativa */
+.carousel .control-dots .dot.selected {
+  width: 17px !important;
+
+  height: 17px !important;
+
+  opacity: 1 !important;
+}
+
+@keyframes chartDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-chart-draw {
+  animation: chartDraw 2s ease-out forwards;
+}
+
+/* Para dar aquele toque de profundidade na grade (opcional) */
+.hero-grid-perspective {
+  transform: perspective(1000px) rotateY(-15deg) rotateX(5deg);
+}
