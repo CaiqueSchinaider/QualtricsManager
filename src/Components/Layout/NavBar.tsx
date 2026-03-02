@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import Button from "../Misc/Button";
 import Title from "../Misc/Title";
+import Text from "../Misc/Text";
 
 export default function NavBar() {
     let navigate = useNavigate() 
@@ -18,8 +19,11 @@ export default function NavBar() {
 
     return (
         <main className="bg-schin-blac w-5/20 h-full pt-20  border-r-2 border-schin-gray-medium relative select-none">
-            <div className=" w-full h-30 flex justify-center items-center ">
+            <div className=" w-full h-30 flex justify-center items-center  relative">
            <img src="title.png" />
+           <Text size="small" className="absolute bottom-0 right-10 invert-30">
+            by Schinaider
+           </Text>
             </div>
             <div className="b h-100 w-full mt-15 flex flex-col justify-start items-center gap-5">
                 <Button text="Criar Link LIVE" size="large" onChildClick={() => navigate('/')}  contrastStyle activate={currentLocation === '/'}/>
