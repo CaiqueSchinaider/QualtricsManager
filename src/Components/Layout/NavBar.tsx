@@ -1,6 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import Button from "../Misc/Button";
-import Title from "../Misc/Title";
 import Text from "../Misc/Text";
 
 export default function NavBar() {

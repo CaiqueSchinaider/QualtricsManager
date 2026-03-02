@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 interface viewSignalProps {
     signal: boolean;
     scriptText: string;
+    scriptEdit: boolean,
 }
 
 interface scriptDB {
@@ -19,7 +20,7 @@ interface scriptDB {
 
 export default function Listscripts() {
     const [scripts, setScripts] = useState<scriptDB[]>([])
-    const [viewSignal, setViewSignal] = useState({
+    const [viewSignal, setViewSignal] = useState<viewSignalProps>({
         signal:  false,
         scriptText: '',
         scriptEdit: false,

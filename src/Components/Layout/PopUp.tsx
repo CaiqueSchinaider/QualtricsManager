@@ -70,7 +70,7 @@ export default function PopUp({text, back, linkToCheck, preset, editScript}: Pop
                 <div className="flex justify-center gap-5 items-center flex-row  w-100">
                         
                     
-                    <Button text="Copiar" size="small" onChildClick={() => handleCopyText(text, editScript)} />    
+                    <Button text="Copiar" size="small" onChildClick={() => handleCopyText(text, editScript ?? false)} />    
                {preset === 'linklive' && linkToCheck ? (  <Button text="Testar Link" size="small" onChildClick={() => checkParams(linkToCheck)} />): (null)}       
                     <Button text="Voltar" size="small" onChildClick={back} />    
                 </div>

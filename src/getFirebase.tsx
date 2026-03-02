@@ -14,18 +14,22 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-async function getDataFirebase<T>(collectionDocs: string): Promise<T[]> {
+async function getDataFirebase<T = any>(collectionDocs: string): Promise<T[]> {
   const collectionRef = collection(db, collectionDocs);
+
   try {
     const querySnapshot = await getDocs(collectionRef);
 
-    const usersData = querySnapshot.docs.map((doc) => ({
-      ...doc.data(),
-    }));
+    const usersData = querySnapshot.docs.map((doc) => 
+      doc.data() as T
+    );
 
     return usersData;
   } catch (error) {
-    console.error('Erro ao pegar dados do firebase. Dados:' + collectionDocs, error);
+    console.error(
+      'Erro ao pegar dados do firebase. Dados:' + collectionDocs,
+      error
+    );
     return [];
   }
 }

@@ -2,7 +2,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomePage from "../Pages/Home";
 import CreateLinkLive from "../Components/Layout/CreateLinkLive";
 import ProjectsQA from "../Components/Layout/ProjectsQA";
-import Listscripts from "../Components/Layout/listscripts";
+import Listscripts from "../Components/Layout/Listscripts";
+
 
 
 export default function AppRouter() {
