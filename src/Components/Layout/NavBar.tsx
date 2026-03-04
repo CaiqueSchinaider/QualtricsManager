@@ -28,6 +28,7 @@ export default function NavBar() {
                 <Button text="Criar Link LIVE" size="large" onChildClick={() => navigate('/')}  contrastStyle activate={currentLocation === '/'}/>
                 <Button text="Testes QA" size="large" onChildClick={() => navigate('/qa')} contrastStyle activate={currentLocation === '/qa'}/>
                 <Button text="Scripts" size="large" onChildClick={() => navigate('/scripts')} contrastStyle activate={currentLocation === '/scripts'}/>
+                <Button text="Formatar/Converter Imagem" size="large" onChildClick={() => navigate('/imageformat')} contrastStyle activate={currentLocation === '/imageformat'}/>
                 <Button  text="Baixar Base Survey" size="medium" className="bottom-5 absolute"  onChildClick={() => downloadBase()} contrastStyle activate={currentLocation === '/settings'}/>
               
             </div>

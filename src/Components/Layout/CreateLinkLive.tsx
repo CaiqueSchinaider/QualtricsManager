@@ -412,6 +412,7 @@ function createLinkLive(): string {
                 <Button text="region" size="small" onChildClick={() => handleSetParams('region')} block={signalProcessando.signal} activate={params.includes('region')}/>
                 <Button text="state" size="small" onChildClick={() => handleSetParams('state')} block={signalProcessando.signal} activate={params.includes('state')}/>
                 <Button text="am" size="small" onChildClick={() => handleSetParams('am')} block={signalProcessando.signal} activate={params.includes('am')}/>
+                <Button text="city" size="small" onChildClick={() => handleSetParams('city')} block={signalProcessando.signal} activate={params.includes('city')}/>
             </div>
             </div>
            <div className="w-full flex flex-col h-30  mt-10 border-b-2 border-schin-gray-medium pl-17">

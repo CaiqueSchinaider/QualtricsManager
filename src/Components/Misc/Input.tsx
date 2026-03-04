@@ -3,7 +3,7 @@ import Text from "./Text";
 
 interface InputProps {
     size: 'small' | 'medium' | 'large' | 'extra large';
-    label: string
+    label?: string
     InputConfig: React.InputHTMLAttributes<HTMLInputElement>
     className?: string;
 }
