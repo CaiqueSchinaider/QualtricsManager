@@ -387,8 +387,8 @@ function createLinkLive(): string {
             resposta: ''
         })}/>) : (null)}
         
-        <section className="w-full h-full flex flex-col justify-start items-center select-none">
-            <div className="w-full  mt-20 border-b-2 border-schin-gray-medium pb-5">
+        <section className=" w-full h-full flex flex-col justify-start items-center select-none">
+            <div className="w-full  mt-28 border-b-2 border-schin-gray-medium pb-5">
             <Input 
             InputConfig={{onChange: (e) => setLink(e.target.value),placeholder: 'Insira um link válido...', readOnly: signalProcessando.signal}}
             size="extra large"

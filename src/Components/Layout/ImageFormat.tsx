@@ -5,9 +5,10 @@ import Text from "../Misc/Text";
 import toast from "react-hot-toast";
 import imageCompression from "browser-image-compression";
 import Pica from "pica";
+import JSZip from "jszip";
 
 export default function ImageFormat() {
-    const [file, setFile] = useState<File | null>(null)
+    const [files, setFiles] = useState<File[]>([])
     const [ext, setExt ] = useState<number>(0)
     const [imgWidth, setImgWidth ] = useState<string>('')
     const [imgHeight, setImgHeight ] = useState<string>('')
@@ -21,10 +22,10 @@ export default function ImageFormat() {
 
         if (input) {
             input.addEventListener("change", (e: any) => {
-                const selected = e.target.files[0]
-                if (selected) {
-                    setFile(selected)
-                    if (fileName) fileName.textContent = selected.name
+                const selected = Array.from(e.target.files)
+                if (selected.length > 0) {
+                    setFiles(selected)
+                    if (fileName) fileName.textContent = selected.map((f:any)=>f.name).join(", ")
                     toast.success("Imagem anexada com sucesso")
                 }
             })
@@ -33,7 +34,7 @@ export default function ImageFormat() {
 
     async function handleFormat() {
 
-        if(!file){
+        if(files.length === 0){
             toast.error("Selecione uma imagem")
             return
         }
@@ -54,70 +55,119 @@ export default function ImageFormat() {
 
         try {
 
-            let processedFile = file
+            const zip = new JSZip()
+            const results:any[] = []
 
-            const img = new Image()
-            img.src = URL.createObjectURL(file)
-            await new Promise((resolve) => img.onload = resolve)
+            for (const file of files) {
 
-            if(resizeScale !== 0){
-                const scaleMap:any = {1:0.25,2:0.5,3:0.75}
-                const scale = scaleMap[resizeScale]
+                let processedFile = file
 
-                const canvas = document.createElement("canvas")
-                canvas.width = img.width * scale
-                canvas.height = img.height * scale
+                const img = new Image()
+                img.src = URL.createObjectURL(file)
+                await new Promise((resolve) => img.onload = resolve)
 
-                await Pica().resize(img, canvas)
-                const blob = await Pica().toBlob(canvas, file.type, 0.95)
-                processedFile = new File([blob], file.name, { type: blob.type })
-            }
+                if(formatI === 3){
+                    const canvas = document.createElement("canvas")
+                    canvas.width = img.width * 2
+                    canvas.height = img.height * 2
 
-            if(imgWidth || imgHeight){
-                const canvas = document.createElement("canvas")
-                canvas.width = imgWidth ? Number(imgWidth) : img.width
-                canvas.height = imgHeight ? Number(imgHeight) : img.height
-
-                await Pica().resize(img, canvas)
-                const blob = await Pica().toBlob(canvas, file.type, 0.95)
-                processedFile = new File([blob], file.name, { type: blob.type })
-            }
-
-            const compressionOptions:any = { useWebWorker:true }
-
-            if(reduceImg !== 0){
-                const qualityMap:any = {1:0.9,2:0.7,3:0.4}
-                compressionOptions.initialQuality = qualityMap[reduceImg]
-            }
-
-            if(ext !== 0){
-                const extMap:any = {
-                    1:"image/webp",
-                    2:"image/png",
-                    3:"image/jpeg"
+                    await Pica().resize(img, canvas)
+                    const blob = await Pica().toBlob(canvas, "image/png", 1)
+                    processedFile = new File([blob], file.name, { type: blob.type })
                 }
-                compressionOptions.fileType = extMap[ext]
+
+                if(resizeScale !== 0){
+                    const scaleMap:any = {1:0.25,2:0.5,3:0.75}
+                    const scale = scaleMap[resizeScale]
+
+                    const canvas = document.createElement("canvas")
+                    canvas.width = img.width * scale
+                    canvas.height = img.height * scale
+
+                    await Pica().resize(img, canvas)
+                    const blob = await Pica().toBlob(canvas, file.type, 0.95)
+                    processedFile = new File([blob], file.name, { type: blob.type })
+                }
+
+                if(imgWidth || imgHeight){
+                    const canvas = document.createElement("canvas")
+                    canvas.width = imgWidth ? Number(imgWidth) : img.width
+                    canvas.height = imgHeight ? Number(imgHeight) : img.height
+
+                    await Pica().resize(img, canvas)
+                    const blob = await Pica().toBlob(canvas, file.type, 0.95)
+                    processedFile = new File([blob], file.name, { type: blob.type })
+                }
+
+                const compressionOptions:any = { useWebWorker:true }
+
+                if(reduceImg !== 0){
+                    const qualityMap:any = {1:0.9,2:0.7,3:0.4}
+                    compressionOptions.initialQuality = qualityMap[reduceImg]
+                }
+
+                if(ext !== 0){
+                    const extMap:any = {
+                        1:"image/webp",
+                        2:"image/png",
+                        3:"image/jpeg"
+                    }
+                    compressionOptions.fileType = extMap[ext]
+                }
+
+                if(formatI !== 0){
+                    if(formatI === 1){
+                        compressionOptions.initialQuality = 0.5
+                        compressionOptions.fileType = "image/webp"
+                    }
+                    if(formatI === 2){
+                        compressionOptions.initialQuality = 0.9
+                        compressionOptions.fileType = "image/png"
+                    }
+                    if(formatI === 3){
+                        compressionOptions.initialQuality = 1
+                        compressionOptions.fileType = "image/png"
+                    }
+                }
+
+                const finalFile = await imageCompression(processedFile, compressionOptions)
+
+                const originalName = file.name.split(".").slice(0, -1).join(".")
+                const newExt = finalFile.type.split("/")[1]
+
+                const renamedFile = new File([finalFile], `${originalName}.${newExt}`, { type: finalFile.type })
+
+                results.push(renamedFile)
             }
 
-            if(formatI !== 0){
-                if(formatI === 1){
-                    compressionOptions.initialQuality = 0.5
-                    compressionOptions.fileType = "image/webp"
+            if(results.length === 1){
+
+                const file = results[0]
+
+                const link = document.createElement("a")
+                link.href = URL.createObjectURL(file)
+                link.download = file.name
+
+                document.body.appendChild(link)
+                link.click()
+                document.body.removeChild(link)
+
+            } else {
+
+                for(const file of results){
+                    zip.file(file.name, file)
                 }
-                if(formatI === 2){
-                    compressionOptions.initialQuality = 0.9
-                    compressionOptions.fileType = "image/png"
-                }
+
+                const zipBlob = await zip.generateAsync({ type: "blob" })
+
+                const link = document.createElement("a")
+                link.href = URL.createObjectURL(zipBlob)
+                link.download = "imagens-formatadas.zip"
+
+                document.body.appendChild(link)
+                link.click()
+                document.body.removeChild(link)
             }
-
-            const finalFile = await imageCompression(processedFile, compressionOptions)
-
-            const link = document.createElement("a")
-            link.href = URL.createObjectURL(finalFile)
-            link.download = `imagem-formatada.${finalFile.type.split("/")[1]}`
-            document.body.appendChild(link)
-            link.click()
-            document.body.removeChild(link)
 
             toast.dismiss(loading)
             toast.success("Imagem formatada com sucesso")
@@ -129,7 +179,7 @@ export default function ImageFormat() {
     }
 
     return (
-        <section className="w-full h-full">
+        <section className="w-full h-full select-none">
             <div className="w-full  h-20 mt-20">
                <div className="flex items-center justify-center w-full">
                     <label className="flex flex-col items-center justify-center w-full max-w-md h-44 border-2 border-dashed border-schin-white rounded-2xl cursor-pointer transition-all duration-200">
@@ -140,13 +190,13 @@ export default function ImageFormat() {
                             </svg>
 
                             <p className="mb-2 text-sm text-schin-white">
-                                <span className="font-semibold">Clique para enviar</span> ou arraste sua imagem
+                                <span className="font-semibold">Clique para enviar uma imagem</span>
                             </p>
 
                             <p className="text-xs text-schin-white">PNG, JPG ou JPEG</p>
                         </div>
 
-                        <input id="fileUpload" type="file" className="hidden" accept="image/*" />
+                        <input id="fileUpload" type="file" className="hidden" accept="image/*" multiple />
                     </label>
                 </div>
 
@@ -154,7 +204,7 @@ export default function ImageFormat() {
             </div>
 
             <div className="w-full h-30  mt-38 flex flex-row">
-                <div className="w-1/2 h-full  flex flex-row relative pt-10 justify-center gap-3 border-r-2 border-schin-gray-strong">
+                <div className="w-1/2 h-full  flex flex-row relative pt-10 justify-center gap-3 border-r-2 border-schin-gray-strong  ">
                     <Text size="large" className="text-schin-white absolute top-0 ">
                         Converter extensão
                     </Text>
@@ -197,6 +247,7 @@ export default function ImageFormat() {
                     </Text>
                 <Button text="Para rapidez" size="small" onChildClick={() =>  formatI === 1 ? setFormatI(0) : setFormatI(1)} activate={formatI === 1} />
                 <Button text="Para qualidade" size="small"  onChildClick={() =>  formatI === 2 ? setFormatI(0) : setFormatI(2)} activate={formatI === 2}/>
+                <Button text="Upscale (Beta)" size="small"  onChildClick={() =>  formatI === 3 ? setFormatI(0) : setFormatI(3)} activate={formatI === 3}/>
                 </div>
                 <div className="w-1/2 h-full  flex flex-row relative pt-10 justify-center gap-3">
                         <Button text="Formatar" size="large"  contrastStyle onChildClick={() => handleFormat()}/>

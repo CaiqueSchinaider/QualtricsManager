@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../Misc/Button";
 import Text from "../Misc/Text";
 import toast from "react-hot-toast";
@@ -27,6 +27,7 @@ export default function ProjectsQA() {
     
     const [idioma, setIdioma] = useState('Portugues')
     const [textQa, setTextQa] = useState('')
+    const [promisseBackup, setPromisseBackup] = useState<boolean>(false)
     const [copySignal, setCopySignal] = useState<copySignalProps>({
         signal: false,
         resposta: ''
@@ -225,8 +226,34 @@ ${textQa}
 <<<FIM_TEXTO>>
 `;
 
- 
+useEffect(() => {
+    getBackupText()
+},[])
 
+useEffect(() => {
+    if (textQa.length > 5 ) {
+
+        const loopBackup = setTimeout(() => {
+            localStorage.setItem('backupQa', textQa)
+        }, 2000)
+        
+        
+        return () => {
+            clearTimeout(loopBackup)
+        }
+        
+    }
+},[textQa])
+
+ 
+function getBackupText() {
+    let isBackupText = localStorage.getItem('backupQa') 
+    if (isBackupText) {
+        toast.success('Último texto restaurado')
+        setPromisseBackup(true)
+        setTextQa(isBackupText)
+    } else {setPromisseBackup(true)}
+}
 
 
 async function perguntar(prompt: string): Promise<string | undefined> {
@@ -280,11 +307,11 @@ async function perguntar(prompt: string): Promise<string | undefined> {
             signal: false,
             resposta: ''
         })} />) : (null)} 
-     
-        <section className=" w-full h-full flex flex-col items-center  select-none">
+
+        {promisseBackup ? (<section className=" w-full h-full flex flex-col items-center  select-none">
             <Text size="large" className="text-schin-white pt-5"> Escreva suas anotações</Text>
             <div className="w-full h-8/10 pt-5 flex justify-center items-center">
-                <textarea placeholder="Insira apenas pontos para ajustes ou apenas diga que não encontrou nenhum..." readOnly={signalProcessando.signal} onChange={(e) => setTextQa(e.target.value)} className=" resize-none border-2 border-schin-gray-strong rounded-lg w-9/10 h-full text-schin-white text-lg p-10"></textarea>   
+                <textarea value={textQa} placeholder="Insira apenas pontos para ajustes ou apenas diga que não encontrou nenhum..." readOnly={signalProcessando.signal} onChange={(e) => setTextQa(e.target.value)} className=" resize-none border-2 border-schin-gray-strong rounded-lg w-9/10 h-full text-schin-white text-lg p-10">ss</textarea>   
             </div>
             <div className="w-full h-2/10 flex justify-center items-center gap-10">
                 <div className="relative  w-3/10 h-7/10 flex flex-row justify-center items-center gap-5 pt-5">
@@ -299,7 +326,8 @@ async function perguntar(prompt: string): Promise<string | undefined> {
                    
                 </div>
             </div>
-        </section>
+        </section>) :(null)}
+        
         </>
     )
 }

@@ -16,10 +16,14 @@ interface scriptDB {
     edit: boolean;
     scriptImg: string;
     imgStyle: React.CSSProperties;
+    html?: string;
+    htmledit?: boolean;
+    info?: string; 
 }
 
 export default function Listscripts() {
     const [scripts, setScripts] = useState<scriptDB[]>([])
+
     const [viewSignal, setViewSignal] = useState<viewSignalProps>({
         signal:  false,
         scriptText: '',
@@ -67,15 +71,41 @@ export default function Listscripts() {
                             <picture className="flex mr-2.5 w-14 h-14 justify-center items-center ">
                                 <img style={code.imgStyle} src={code.scriptImg} />
                             </picture>
-                            <Text size="extra large" className="text-schin-white  border-l-2 border-schin-gray-strong h-6/10 flex pl-5 justify-center items-center">{code.name}</Text>   
+                            <Text size="extra large" className="text-schin-gray-light  border-l-2 border-schin-gray-strong h-6/10 flex pl-5 justify-center items-center">{code.name}</Text>   
                         </div>
                         <div className=" h-full select-none w-3/10 flex flex-row items-center justify-end pr-8 gap-8 ">
-                            <img src="code.png" className="w-10 h-10 invert-80 hover:scale-98 cursor-pointer duration-75" onClick={() => setViewSignal({
-                                signal: true,
-                                scriptText: code.script,
-                                scriptEdit: code.edit,
-                            })} />
-                            <img src="copy.png" className="w-8 h-8 invert-80  hover:scale-98 cursor-pointer duration-75" onClick={() => handleCopyScript(code.script) }/>
+                       
+                            {code.html ? (  
+                                <button onClick={() => setViewSignal({
+                                        signal: true,
+                                        scriptText: code.html!,
+                                        scriptEdit: code.htmledit!,
+                                        })} className=" flex justify-center items-center hover:scale-99 hover:invert-85 invert-70 duration-75">
+                                    <img src="html.webp" className="w-10 h-10 cursor-pointer"  />
+                                </button>
+                            ) : (null)} 
+
+                                <button onClick={() => setViewSignal({
+                                        signal: true,
+                                        scriptText: code.script,
+                                        scriptEdit: code.edit,
+                                    })} className=" flex justify-center items-center hover:scale-99 hover:invert-85 invert-70 duration-75">
+                                    <img src="code.png" className="w-10 h-10 cursor-pointer"  />
+                                 </button>
+
+                                <button  onClick={() => handleCopyScript(code.script) } className=" flex justify-center items-center hover:scale-99 hover:invert-85 invert-70 duration-75">
+                                     <img src="copy.png" className="w-8 h-8   cursor-pointer"/>
+                                </button>
+
+                    {code.info ? ( 
+                                <button onClick={() => setViewSignal({
+                                        signal: true,
+                                        scriptText: code.info!,
+                                        scriptEdit: false
+                                        })} className=" flex justify-center items-center hover:scale-99 hover:invert-85 invert-70 duration-75">
+                                    <img src="info.webp" className="w-9 h-9 cursor-pointer" />  
+                                </button>) : (null)}
+                              
                         </div>
                     </div>
                     ) )}

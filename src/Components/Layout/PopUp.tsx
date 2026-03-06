@@ -60,7 +60,7 @@ export default function PopUp({text, back, linkToCheck, preset, editScript}: Pop
     return (
         <div className=" select-none w-screen h-screen backdrop-blur-2xl flex justify-center items-center fixed top-0 left-0 z-1000">
 
-            <div className="flex justify-start pt-5 gap-5 items-center flex-col w-6/10 h-7/10 bg-schin-black rounded-2xl border border-schin-gray-strong">
+            <div className="relative flex justify-start pt-5 gap-5 items-center flex-col w-6/10 h-7/10 bg-schin-black rounded-2xl border border-schin-gray-strong">
                 <Text size="large" className="text-schin-white" >
                {preset  === 'view' ? 'Visualizando o Script' : 'Verifique e copie a mensagem'}   
                 </Text>
@@ -70,6 +70,7 @@ export default function PopUp({text, back, linkToCheck, preset, editScript}: Pop
                 <div className="flex justify-center gap-5 items-center flex-row  w-100">
                         
                     
+                 
                     <Button text="Copiar" size="small" onChildClick={() => handleCopyText(text, editScript ?? false)} />    
                {preset === 'linklive' && linkToCheck ? (  <Button text="Testar Link" size="small" onChildClick={() => checkParams(linkToCheck)} />): (null)}       
                     <Button text="Voltar" size="small" onChildClick={back} />    
