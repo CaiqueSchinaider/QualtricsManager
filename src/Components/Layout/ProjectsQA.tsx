@@ -6,41 +6,34 @@ import PopUp from "./PopUp";
 import { GoogleGenAI } from "@google/genai";
 
 interface copySignalProps {
-    signal: boolean;
-    resposta: string;
+  signal: boolean;
+  resposta: string;
 }
 
- interface SignalProcessandoProps { 
-
-        signal: boolean;
-        text: string;
-
-    }
-
+interface SignalProcessandoProps {
+  signal: boolean;
+  text: string;
+}
 
 const API_KEY = "AIzaSyB3s_ZKT9Pxwhj15Y68sfxZf6f4fTavhqk";
 const ai = new GoogleGenAI({ apiKey: API_KEY });
 
-
-
 export default function ProjectsQA() {
-    
-    const [idioma, setIdioma] = useState('Portugues')
-    const [textQa, setTextQa] = useState('')
-    const [promisseBackup, setPromisseBackup] = useState<boolean>(false)
-    const [copySignal, setCopySignal] = useState<copySignalProps>({
-        signal: false,
-        resposta: ''
-    })
+  const [idioma, setIdioma] = useState("Portugues");
+  const [textQa, setTextQa] = useState("");
+  const [promisseBackup, setPromisseBackup] = useState<boolean>(false);
+  const [copySignal, setCopySignal] = useState<copySignalProps>({
+    signal: false,
+    resposta: "",
+  });
 
-    const [signalProcessando, setSignalProcessando] = useState<SignalProcessandoProps>({
-    
-            signal: false,
-            text: 'Formatar com IA',
-    
-        })
+  const [signalProcessando, setSignalProcessando] =
+    useState<SignalProcessandoProps>({
+      signal: false,
+      text: "Formatar com IA",
+    });
 
-const prompt = `
+  const prompt = `
 TAREFA ÚNICA:
 Formatar o conteúdo fornecido ao final deste prompt seguindo EXATAMENTE as regras abaixo.
 
@@ -226,108 +219,147 @@ ${textQa}
 <<<FIM_TEXTO>>
 `;
 
-useEffect(() => {
-    getBackupText()
-},[])
+  useEffect(() => {
+    getBackupText();
+  }, []);
 
-useEffect(() => {
-    if (textQa.length > 5 ) {
+  useEffect(() => {
+    if (textQa.length > 5) {
+      const loopBackup = setTimeout(() => {
+        localStorage.setItem("backupQa", textQa);
+      }, 2000);
 
-        const loopBackup = setTimeout(() => {
-            localStorage.setItem('backupQa', textQa)
-        }, 2000)
-        
-        
-        return () => {
-            clearTimeout(loopBackup)
-        }
-        
+      return () => {
+        clearTimeout(loopBackup);
+      };
     }
-},[textQa])
+  }, [textQa]);
 
- 
-function getBackupText() {
-    let isBackupText = localStorage.getItem('backupQa') 
+  function getBackupText() {
+    let isBackupText = localStorage.getItem("backupQa");
     if (isBackupText) {
-        toast.success('Último texto restaurado')
-        setPromisseBackup(true)
-        setTextQa(isBackupText)
-    } else {setPromisseBackup(true)}
-}
-
-
-async function perguntar(prompt: string): Promise<string | undefined> {
-  try {
-    const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
-      contents: prompt,
-    });
-
-    return response.text;
-  } catch (error) {
-    console.error(error);
-    return undefined;
-  }
-}
-
-   async function handleFormatQa() {
-        if (textQa === '' || textQa.length < 10) {
-            toast.error('Texto de QA muito curto')
-            return;
-        }
-        setSignalProcessando({
-            signal: true,
-            text: 'Formatando texto...'
-        })
-        toast.loading('Gerando mensagem aguarde...')
-        let resposta = await perguntar(prompt)
-
-        toast.loading('Gerando formatação...')
-
-        if (resposta) {
-              setCopySignal({
-            signal: true,
-            resposta: resposta,
-        })
-         setSignalProcessando({
-            signal: false,
-            text: 'Formatar com IA'
-        })
-        toast.dismiss()
-        toast.success('Texto formatado')
-        }
-
+      toast.success("Último texto restaurado");
+      setPromisseBackup(true);
+      setTextQa(isBackupText);
+    } else {
+      setPromisseBackup(true);
     }
+  }
 
+  async function perguntar(prompt: string): Promise<string | undefined> {
+    try {
+      const response = await ai.models.generateContent({
+        model: "gemini-2.5-flash",
+        contents: prompt,
+      });
 
-    return (
-        <>
-        {copySignal.signal ? (   <PopUp preset="qa" text={copySignal.resposta} back={() => setCopySignal({
+      return response.text;
+    } catch (error) {
+      console.error(error);
+      return undefined;
+    }
+  }
 
-            signal: false,
-            resposta: ''
-        })} />) : (null)} 
+  async function handleFormatQa() {
+    if (textQa === "" || textQa.length < 10) {
+      toast.error("Texto de QA muito curto");
+      return;
+    }
+    setSignalProcessando({
+      signal: true,
+      text: "Formatando texto...",
+    });
+    toast.loading("Gerando mensagem aguarde...");
+    let resposta = await perguntar(prompt);
 
-        {promisseBackup ? (<section className=" w-full h-full flex flex-col items-center  select-none">
-            <Text size="large" className="text-schin-white pt-5"> Escreva suas anotações</Text>
-            <div className="w-full h-8/10 pt-5 flex justify-center items-center">
-                <textarea value={textQa} placeholder="Insira apenas pontos para ajustes ou apenas diga que não encontrou nenhum..." readOnly={signalProcessando.signal} onChange={(e) => setTextQa(e.target.value)} className=" resize-none border-2 border-schin-gray-strong rounded-lg w-9/10 h-full text-schin-white text-lg p-10">ss</textarea>   
+    toast.loading("Gerando formatação...");
+
+    if (resposta) {
+      setCopySignal({
+        signal: true,
+        resposta: resposta,
+      });
+      setSignalProcessando({
+        signal: false,
+        text: "Formatar com IA",
+      });
+      toast.dismiss();
+      toast.success("Texto formatado");
+    }
+  }
+
+  return (
+    <>
+      {copySignal.signal ? (
+        <PopUp
+          preset="qa"
+          text={copySignal.resposta}
+          back={() =>
+            setCopySignal({
+              signal: false,
+              resposta: "",
+            })
+          }
+        />
+      ) : null}
+
+      {promisseBackup ? (
+        <section className=" w-full h-full flex flex-col items-center  select-none">
+          <Text size="large" className="text-schin-white pt-5">
+            {" "}
+            Escreva suas anotações
+          </Text>
+          <div className="w-full h-8/10 pt-5 flex justify-center items-center">
+            <textarea
+              value={textQa}
+              placeholder="Insira apenas pontos para ajustes ou apenas diga que não encontrou nenhum..."
+              readOnly={signalProcessando.signal}
+              onChange={(e) => setTextQa(e.target.value)}
+              className=" resize-none border-2 border-schin-gray-strong rounded-lg w-9/10 h-full text-schin-white text-lg p-10"
+            >
+              ss
+            </textarea>
+          </div>
+          <div className="w-full h-2/10 flex justify-center items-center gap-10">
+            <div className="relative  w-3/10 h-9/10 flex flex-row justify-center  items-center gap-5 pt-5">
+              <Text size="large" className="absolute top-2 text-schin-white">
+                Selecione um idioma
+              </Text>
+              <Button
+                text="Português"
+                size="small"
+                activate={idioma === "Portugues"}
+                onChildClick={() => setIdioma("Portugues")}
+                block={signalProcessando.signal}
+              />
+              <Button
+                text="Inglês"
+                size="small"
+                activate={idioma === "Ingles"}
+                onChildClick={() => setIdioma("Ingles")}
+                block={signalProcessando.signal}
+              />
+              <Button
+                text="Espanhol"
+                size="small"
+                activate={idioma === "Espanhol"}
+                onChildClick={() => setIdioma("Espanhol")}
+                block={signalProcessando.signal}
+              />
             </div>
-            <div className="w-full h-2/10 flex justify-center items-center gap-10">
-                <div className="relative  w-3/10 h-7/10 flex flex-row justify-center items-center gap-5 pt-5">
-                    <Text size="large" className="absolute top-2 text-schin-white">Selecione um idioma</Text>
-                    <Button text="Português" size="small" activate={idioma === 'Portugues'}  onChildClick={() => setIdioma('Portugues')} block={signalProcessando.signal}/>
-                    <Button text="Inglês" size="small"  activate={idioma === 'Ingles'} onChildClick={() => setIdioma('Ingles')} block={signalProcessando.signal}/>
-                    <Button text="Espanhol" size="small"  activate={idioma === 'Espanhol'} onChildClick={() => setIdioma('Espanhol')} block={signalProcessando.signal}/>
-                </div>
-                <div className="  w-3/10 h-7/10 flex flex-row justify-center items-center pt-5">
-                 
-                    <Button text={signalProcessando.text} size="large" onChildClick={() => handleFormatQa()} block={signalProcessando.signal} contrastStyle activate={signalProcessando.signal} />
-                   
-                </div>
+            <div className="  w-3/10 h-7/10 flex flex-row justify-center items-center pt-5">
+              <Button
+                text={signalProcessando.text}
+                size="large"
+                onChildClick={() => handleFormatQa()}
+                block={signalProcessando.signal}
+                contrastStyle
+                activate={signalProcessando.signal}
+              />
             </div>
-        </section>) :(null)}
-        
-        </>
-    )
+          </div>
+        </section>
+      ) : null}
+    </>
+  );
 }
