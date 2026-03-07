@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import NavBar from "../Components/Layout/NavBar";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function HomePage() {
   const [minimize, setMinimize] = useState<boolean>(false);
