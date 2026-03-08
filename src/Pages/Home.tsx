@@ -21,7 +21,7 @@ export default function HomePage() {
     <main className="bg-schin-black w-screen  h-screen flex flex-row relative">
       <button
         onClick={() => handleMinimize()}
-        className={` ${width < 1400 ? " w-12 h-12" : " w-15 h-15"} border-3  border-schin-cyan  rounded-full select-none z-2 duration-500 cursor-pointer hover:scale- flex justify-center items-center  absolute top-6 left-4 pl-1 ${minimize ? "" : "rotate-180 "}  `}
+        className={` ${width < 1400 ? " w-12 h-12" : " w-15 h-15"} border-2  border-schin-cyan  rounded-full select-none z-2 duration-500 cursor-pointer hover:scale- flex justify-center items-center  absolute top-6 left-4 pl-1 ${minimize ? "" : "rotate-180 "}  `}
       >
         <img
           src="arrow.webp"
