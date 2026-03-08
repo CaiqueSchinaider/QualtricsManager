@@ -315,10 +315,8 @@ ${textQa}
               placeholder="Insira apenas pontos para ajustes ou apenas diga que não encontrou nenhum..."
               readOnly={signalProcessando.signal}
               onChange={(e) => setTextQa(e.target.value)}
-              className=" resize-none border-2 border-schin-gray-strong rounded-lg w-9/10 h-full text-schin-white text-lg p-10"
-            >
-              ss
-            </textarea>
+              className=" resize-none border-2 border-schin-gray-strong rounded-2xl w-9/10 h-full text-schin-white text-lg p-10"
+            ></textarea>
           </div>
           <div className="w-full h-2/10 flex justify-center items-center gap-10">
             <div className="relative  w-3/10 h-9/10 flex flex-row justify-center  items-center gap-5 pt-5">
