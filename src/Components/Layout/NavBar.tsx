@@ -21,8 +21,8 @@ export default function NavBar({ signalMinimize }: NavBarProps) {
 
   function downloadBase() {
     const link = document.createElement("a");
-    link.href = "/files/BASE-SURVEY-NEW.qsf";
-    link.download = "BASE-SURVEY-NEW.qsf";
+    link.href = "/files/BASE_SURVEY_NEW.qsf";
+    link.download = "BASE_SURVEY_NEW.qsf.qsf";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
