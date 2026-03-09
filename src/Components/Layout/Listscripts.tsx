@@ -1,4 +1,4 @@
-import { use, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import getDataFirebase from "../../getFirebase"
 import Text from "../Misc/Text"
 import PopUp from "./PopUp";

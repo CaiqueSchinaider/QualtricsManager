@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Button from "../Misc/Button";
 import Input from "../Misc/Input";
 import Text from "../Misc/Text";
