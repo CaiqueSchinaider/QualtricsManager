@@ -61,7 +61,7 @@ export default function PopUp({
       <div className="relative flex justify-start pt-5 gap-5 items-center flex-col w-6/10 min-h-150  h-7/10 bg-schin-black rounded-2xl border border-schin-gray-strong">
         <Text size="large" className="text-schin-white">
           {preset === "view"
-            ? "Visualizando o Script"
+            ? "Visualizando o conteúdo"
             : "Verifique e copie a mensagem"}
         </Text>
         <textarea
