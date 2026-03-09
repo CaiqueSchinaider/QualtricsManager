@@ -309,7 +309,7 @@ ${textQa}
             {" "}
             Escreva suas anotações
           </Text>
-          <div className="w-full h-8/10 pt-5 flex justify-center items-center">
+          <div className="w-full h-7/10 mt-5 pt-5 flex justify-center items-center">
             <textarea
               value={textQa}
               placeholder="Insira apenas pontos para ajustes ou apenas diga que não encontrou nenhum..."
@@ -318,8 +318,8 @@ ${textQa}
               className=" resize-none border-2 border-schin-gray-strong rounded-2xl w-9/10 h-full text-schin-white text-lg p-10"
             ></textarea>
           </div>
-          <div className="w-full h-2/10 flex justify-center items-center gap-10">
-            <div className="relative  w-3/10 h-9/10 flex flex-row justify-center  items-center gap-5 pt-5">
+          <div className="w-full h-2/10 flex justify-center items-center">
+            <div className="relative   w-7/10 max-w-150 h-9/10 flex flex-row justify-center  items-center gap-5 pt-5">
               <Text size="large" className="absolute top-2 text-schin-white">
                 Selecione um idioma
               </Text>
@@ -345,10 +345,10 @@ ${textQa}
                 block={signalProcessando.signal}
               />
             </div>
-            <div className="  w-3/10 h-7/10 flex flex-row justify-center items-center pt-5">
+            <div className="  w-3/10 h-7/10 max-w-75    flex flex-row justify-center items-center pt-5">
               <Button
                 text={signalProcessando.text}
-                size="large"
+                size="medium"
                 onChildClick={() => handleFormatQa()}
                 block={signalProcessando.signal}
                 contrastStyle

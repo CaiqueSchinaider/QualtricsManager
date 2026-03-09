@@ -31,7 +31,7 @@ export default function HomePage() {
 
       <NavBar signalMinimize={minimize} />
       <div
-        onClick={() => setMinimize(width > 1700 ? false : true)}
+        onClick={() => setMinimize(width < 1700 ? true : minimize)}
         className={`w-full h-full duration-300 `}
       >
         <Outlet />
