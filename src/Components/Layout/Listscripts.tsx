@@ -71,7 +71,7 @@ export default function Listscripts() {
 
                     {scripts.map((code) => (
 
-                    <div className="w-8/10 min-h-20 min-w-150 h-20 border   border-schin-gray-strong rounded-2xl flex flex-row">
+                    <div className="w-8/10 shadow-2xl shadow-[#000] min-h-20 min-w-150 h-20 border   border-schin-gray-strong rounded-2xl flex flex-row">
                         <div className="  w-11/20 h-full  flex justify-start items-center pl-5 select-none">
                             <picture className="flex mr-2.5 w-14 h-14 justify-center items-center ">
                                 <img style={code.imgStyle} src={code.scriptImg} />
