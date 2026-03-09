@@ -76,15 +76,15 @@ export default function NavBar({ signalMinimize }: NavBarProps) {
           contrastStyle
           activate={currentLocation === "/imageformat"}
         />
-        <Button
-          text="Baixar Base Survey"
-          size="medium"
-          className="bottom-5 absolute"
-          onChildClick={() => downloadBase()}
-          contrastStyle
-          activate={currentLocation === "/settings"}
-        />
-      </div>
+        
+        <button className="bottom-5 absolute w-48 h-15 border-schin-cyan rounded-2xl border text-schin-cyan flex flex-row items-center justify-center gap-2 cursor-pointer hover:scale-98 duration-105 transition-all" onClick={() => downloadBase()}>
+            <img src="downloadicon.png" className="w-7"/>
+            <Text size="small">
+            Baixar Base Survey
+            </Text>
+        </button>
+        </div>
+        
     </nav>
   );
 }
