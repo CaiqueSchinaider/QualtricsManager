@@ -1,5 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Julius+Sans+One&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Protest+Strike&family=Special+Gothic+Expanded+One&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Goldman:wght@400;700&family=Orbitron:wght@400..900&family=Protest+Strike&display=swap');
 @import "tailwindcss";
+
 
 
 @theme {
@@ -14,16 +15,21 @@
   --color-schin-white: #ffffff;
   --color-schin-white-cool: #f2f2f2;
   --color-schin-white-neutro: #e6e6e6;
+  --font-bebas: "Bebas Neue", sans-serif;
   --font-sans: "Cairo", sans-serif;
   --font-protest: "Protest Strike", sans-serif;
   --font-elegante: "Cormorant Garamond", serif;
-  --font-bebas: "Bebas Neue", sans-serif;
   --font-poppins: "Poppins", sans-serif;
-  --font-alans: "Alan Sans", sans-serif;
-  --font-helvetica: "Helvetica", "Arial", sans-serif;
-  --font-adidas: "AdiHaus", "Helvetica", "Arial", sans-serif;
-  --font-gothic: "Special Gothic Expanded One", sans-serif;
-  --font-julio: "Julius Sans One", sans-serif;
+  --font-tech: "Chakra Petch", sans-serif;
+  --font-code:   "Cascadia Code", monospace;
+}
+
+.cm-scroller::-webkit-scrollbar {
+  display: none;
+}
+
+.cm-scroller {
+  scrollbar-width: none;
 }
 
 .carousel .control-arrow {

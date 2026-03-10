@@ -305,22 +305,21 @@ ${textQa}
 
       {promisseBackup ? (
         <section className=" w-full h-full flex flex-col items-center  select-none">
-          <Text size="large" className="text-schin-white pt-5">
-            {" "}
-            Escreva suas anotações
-          </Text>
-          <div className="w-full h-7/10 mt-5 pt-5 flex justify-center items-center">
+          <Text size="custom" className="text-4xl pt-15 pb-5 select-none  font-protest text-schin-gray-light"> 
+                          Visualize e/ou copie um script
+                      </Text>
+          <div className="w-full h-7/10  pt-5 flex justify-center items-center">
             <textarea
               value={textQa}
               placeholder="Insira apenas pontos para ajustes ou apenas diga que não encontrou nenhum..."
               readOnly={signalProcessando.signal}
               onChange={(e) => setTextQa(e.target.value)}
-              className=" resize-none border-2 border-schin-gray-strong rounded-2xl w-9/10 h-full text-schin-white text-lg p-10"
+              className=" resize-none border-2 border-schin-gray-strong rounded-2xl w-9/10 h-full text-schin-gray-light text-lg p-10"
             ></textarea>
           </div>
           <div className="w-full h-2/10 flex justify-center items-center">
             <div className="relative   w-7/10 max-w-150 h-9/10 flex flex-row justify-center  items-center gap-5 pt-5">
-              <Text size="large" className="absolute top-2 text-schin-white">
+              <Text size="large" className="absolute top-2 text-schin-gray-light">
                 Selecione um idioma
               </Text>
               <Button

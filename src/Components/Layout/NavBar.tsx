@@ -41,7 +41,7 @@ export default function NavBar({ signalMinimize }: NavBarProps) {
         className={` ${height < 800 ? "mt-0" : "mt-15"} w-full  h-30 flex justify-center items-center  relative `}
       >
         <img src="title.png" />
-        <Text size="small" className="absolute bottom-0 right-10 invert-30">
+        <Text size="small" className="absolute font-tech bottom-3 right-10 invert-30">
           by Schinaider
         </Text>
       </div>

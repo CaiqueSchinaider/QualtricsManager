@@ -396,7 +396,7 @@ ${obs}
         className={`w-full h-full flex flex-col justify-start items-center select-none`}
       >
         <div
-          className={`${height! < 885 ? "flex flex-nowrap gap-8 mt-18 items-center" : "mt-28"} w-full     border-b-2 border-schin-gray-medium pb-5`}
+          className={`${width! < 1335 ? "justify-center flex" : ""} ${height! < 885 ? "flex flex-nowrap gap-8 mt-18 items-center" : "mt-28"} w-full     border-b-2 border-schin-gray-medium pb-5`}
         >
           <Input
             InputConfig={{
@@ -407,7 +407,7 @@ ${obs}
             }}
             size={height! > 835 ? "extra large" : "large"}
             label="Insira o link"
-            className="ml-20"
+            className={` ${width! < 1335 && height! > 885 ? " w-150 " : height! < 836 ? "w-100  " : ''}  ${width! >= 1335 ? 'ml-20' : ''}`}
           />
           {height! < 835 && width! > 1335 ? (
             <div
@@ -415,7 +415,7 @@ ${obs}
             >
               <Text
                 size="large"
-                className="text-schin-white pb-2 absolute top-0"
+                className="text-schin-gray-light pb-2 absolute top-0"
               >
                 Escolha um Idioma
               </Text>
@@ -444,7 +444,7 @@ ${obs}
           ) : null}
           {height! > 885 && width! > 1335 ? null : width! <= 1335 &&
             height! <= 835 ? (
-            <div className={`w-75 justify-center items-center flex  gap-5`}>
+            <div className={`w-75 justify-center h-full flex items-end gap-5`}>
               <Button
                 text={signalProcessando.text}
                 size="small"
@@ -485,14 +485,14 @@ ${obs}
         </div>
 
         <div
-          className={`w-full flex flex-col ${width! < 1335 ? " h-67" : ""} ${width! < 1335 ? "" : "min-h-30  "}   py-3  border-b-2 border-schin-gray-medium pl-16`}
+          className={`w-full flex flex-col ${width! < 1335 ? " h-67 items-center" : "pl-16"} ${width! < 1335 ? "" : "min-h-30  "}   py-3  border-b-2 border-schin-gray-medium `}
         >
-          <Text size="large" className="text-schin-white pb-2">
+          <Text size="large" className="text-schin-gray-light pb-2">
             Selecione os parametros
           </Text>
 
           <div
-            className={` ${width! < 1335 ? "grid-cols-[120px_120px_120px_120px_120px] gap-3  grid w-4/10 min-w-100" : "flex flex-row gap-5 w-full  justify-start items-center"}   `}
+            className={` ${width! < 1335 ? "grid-cols-[120px_120px_120px_120px] items-center justify-center grid-rows-3 grid-flow-row  gap-3  grid w-4/10 min-w-100" : "flex flex-row gap-5 w-full  justify-start items-center"}   `}
           >
             <Button
               text="owid"
@@ -528,6 +528,7 @@ ${obs}
               onChildClick={() => handleSetParams("sel")}
               block={signalProcessando.signal}
               activate={params.includes("sel")}
+              className=""
             />
             <Button
               text="region"
@@ -556,19 +557,20 @@ ${obs}
               onChildClick={() => handleSetParams("city")}
               block={signalProcessando.signal}
               activate={params.includes("city")}
+              className={`${width! < 1335 ? 'col-span-4 w-full' : ''} `}
             />
           </div>
         </div>
         {height! < 835 && width! > 1335 ? null : (
           <div
-            className={`w-full ${width! < 1335 ? "h-65 min-h-65 flex-row-reverse gap-5   justify-end items-center" : "h-30 flex-col mt-10 "} flex border-b-2 border-schin-gray-medium pl-17`}
+            className={`w-full ${width! < 1335 ? " h-65 min-h-65 flex-row-reverse gap-3 justify-center items-center" : "h-30 flex-col mt-10 pl-17 "} flex border-b-2 border-schin-gray-medium `}
           >
             <div
-              className={` ${width! < 1335 ? "w-1/5 min-w-50  flex-col gap-2 h-9/10 justify-end items-center" : "w-full flex-row gap-5 h-24 items-end justify-start "} flex   relative`}
+              className={` ${width! < 1335 ? " w-1/7 min-w-40  flex-col gap-2 h-9/10 justify-end items-center" : "w-full flex-row gap-5 h-24 items-end justify-start "} flex   relative`}
             >
               <Text
-                size="large"
-                className="text-schin-white pb-2 absolute top-0"
+                size="medium"
+                className="text-schin-gray-light pb-2 absolute top-0"
               >
                 Escolha um Idioma
               </Text>
@@ -599,7 +601,7 @@ ${obs}
                 placeholder="Faça uma observação que possa ser util para o PM..."
                 readOnly={signalProcessando.signal}
                 onChange={(e) => setObs(e.target.value)}
-                className="resize-none w-2/5 min-w-100 h-50 border-schin-gray-medium border rounded-2xl text-schin-white pl-5 pt-2"
+                className="resize-none w-2/5 max-w-90 min-w-90 h-50 border-schin-gray-medium border rounded-2xl text-schin-gray-light px-5 pt-5"
               ></textarea>
             ) : null}
           </div>
@@ -609,7 +611,7 @@ ${obs}
           className={` ${width! < 1335 ? "h-40 w-full" : " mt-15 h-80 w-9/10"}  bg- flex items-start flex-col  `}
         >
           {width! > 1335 ? (
-            <Text size="large" className="text-schin-white pb-2">
+            <Text size="large" className="text-schin-gray-light pb-2">
               Alguma Observação?
             </Text>
           ) : null}
@@ -619,7 +621,7 @@ ${obs}
                 placeholder="Faça uma observação que possa ser util para o PM..."
                 readOnly={signalProcessando.signal}
                 onChange={(e) => setObs(e.target.value)}
-                className="resize-none w-5/10 min-h-50 h-19/20 border-schin-gray-medium border rounded-2xl text-schin-white pl-5 pt-2"
+                className="resize-none w-5/10 min-h-50 h-19/20 border-schin-gray-medium border rounded-2xl text-schin-gray-light pl-5 pt-5"
               ></textarea>
             ) : null}
             {height! > 835 || width! > 1335 ? (

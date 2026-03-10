@@ -178,10 +178,10 @@ export default function ImageFormat() {
         <>
           <div className="w-full  h-20 mt-20">
             <div className="flex  items-center justify-center w-full">
-              <label className="flex  flex-col items-center justify-center w-full max-w-md h-44 border-2 border-dashed border-schin-white rounded-2xl cursor-pointer transition-all duration-200">
+              <label className="flex  flex-col items-center justify-center w-full max-w-md h-44 border-2 border-dashed border-schin-gray-strong rounded-2xl cursor-pointer transition-all duration-200">
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
                   <svg
-                    className="w-8 h-8 mb-3 text-schin-white"
+                    className="w-8 h-8 mb-3 text-schin-gray-light"
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="2"
@@ -194,13 +194,13 @@ export default function ImageFormat() {
                     />
                   </svg>
 
-                  <p className="mb-2 text-sm text-schin-white">
+                  <p className="mb-2 text-sm text-schin-gray-light">
                     <span className="font-semibold">
                       Clique para enviar uma imagem
                     </span>
                   </p>
 
-                  <p className="text-xs text-schin-white">PNG, JPG ou JPEG</p>
+                  <p className="text-xs text-schin-gray-light">PNG, JPG ou JPEG</p>
                 </div>
 
                 <input
@@ -230,7 +230,7 @@ export default function ImageFormat() {
 
           <div className="w-full h-30  mt-38 flex flex-row">
             <div className="w-1/2 h-full  flex flex-row relative pt-10 justify-center gap-3 border-r-2 border-schin-gray-strong  ">
-              <Text size="large" className="text-schin-white absolute top-0 ">
+              <Text size="large" className="text-schin-gray-light absolute top-0 ">
                 Converter extensão
               </Text>
               <Button
@@ -253,7 +253,7 @@ export default function ImageFormat() {
               />
             </div>
             <div className="w-1/2 h-full  flex flex-row relative pt-10 justify-center gap-3 ">
-              <Text size="large" className="text-schin-white absolute top-0 ">
+              <Text size="large" className="text-schin-gray-light absolute top-0 ">
                 Redimensionar imagem
               </Text>
               <Input
@@ -277,7 +277,7 @@ export default function ImageFormat() {
 
           <div className="w-full h-30  mt-20 flex flex-row">
             <div className="w-1/2 h-full  flex flex-row relative pt-10 justify-center gap-3 border-r-2 border-schin-gray-strong">
-              <Text size="large" className="text-schin-white absolute top-0 ">
+              <Text size="large" className="text-schin-gray-light absolute top-0 ">
                 Diminuir tamanho de arquivo
               </Text>
               <Button
@@ -306,7 +306,7 @@ export default function ImageFormat() {
               />
             </div>
             <div className="w-1/2 h-full  flex flex-row relative pt-10 justify-center gap-3">
-              <Text size="large" className="text-schin-white absolute top-0 ">
+              <Text size="large" className="text-schin-gray-light absolute top-0 ">
                 Diminuir proporção
               </Text>
               <Button
@@ -338,7 +338,7 @@ export default function ImageFormat() {
 
           <div className="w-full h-30   mt-20 flex flex-row">
             <div className="w-1/2 h-full  flex flex-row relative pt-10 justify-center gap-3 border-r-2 border-schin-gray-strong">
-              <Text size="large" className="text-schin-white absolute top-0 ">
+              <Text size="large" className="text-schin-gray-light absolute top-0 ">
                 Formatação inteligente
               </Text>
               <Button
@@ -373,10 +373,10 @@ export default function ImageFormat() {
       ) : (
         <section className=" w-full h-full flex flex-col items-center ">
           <div className="flex items-center justify-center w-full bg-schin-black mt-15">
-            <label className="flex  flex-col items-center justify-center w-80 max-w-md h-28 border-2 border-dashed border-schin-white rounded-2xl cursor-pointer transition-all duration-200">
+            <label className="flex  flex-col items-center justify-center w-80 max-w-md h-30 border-2 border-dashed border-schin-gray-strong rounded-2xl cursor-pointer transition-all duration-200">
               <div className="flex flex-col items-center justify-center pt-5 pb-6">
                 <svg
-                  className="w-8 h-8 mb-3 text-schin-white"
+                  className="w-8 h-8 mb-3 text-schin-gray-light"
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="2"
@@ -390,13 +390,13 @@ export default function ImageFormat() {
                   />
                 </svg>
 
-                <p className="mb-2 text-sm text-schin-white">
+                <p className="mb-2 text-sm text-schin-gray-light">
                   <span className="font-semibold">
                     Clique para enviar uma imagem
                   </span>
                 </p>
 
-                <p className="text-xs text-schin-white">PNG, JPG ou JPEG</p>
+                <p className="text-xs text-schin-gray-light">PNG, JPG ou JPEG</p>
               </div>
 
               <input
@@ -421,9 +421,9 @@ export default function ImageFormat() {
             </label>
           </div>
 
-          <div className="w-105 border-schin-white-cool border rounded-2xl py-8 mt-5 h-10/10 min-h-35 flex flex-col overflow-scroll hide-scrollbar gap-15 ">
+          <div className="w-115 border-schin-gray-strong border rounded-2xl py-8 mt-5 h-10/10 min-h-35 flex flex-col overflow-scroll hide-scrollbar gap-15 ">
             <div className="w-full h-30 flex flex-row relative pt-10 justify-center gap-3 border-r-2 border-schin-gray-strong  ">
-              <Text size="large" className="text-schin-white absolute top-0 ">
+              <Text size="large" className="text-schin-gray-light absolute top-0 ">
                 Converter extensão
               </Text>
               <Button
@@ -446,7 +446,7 @@ export default function ImageFormat() {
               />
             </div>
             <div className="w-full h-h-30   flex flex-row relative pt-10 justify-center gap-3 ">
-              <Text size="large" className="text-schin-white absolute top-0 ">
+              <Text size="large" className="text-schin-gray-light absolute top-0 ">
                 Redimensionar imagem
               </Text>
               <Input
@@ -455,6 +455,7 @@ export default function ImageFormat() {
                 InputConfig={{
                   placeholder: "Largura",
                   onChange: (e) => setImgWidth(e.target.value),
+                  style: {textAlign: 'center', paddingLeft: '0'}
                 }}
               />
               <Input
@@ -463,11 +464,12 @@ export default function ImageFormat() {
                 InputConfig={{
                   placeholder: "Altura",
                   onChange: (e) => setImgHeight(e.target.value),
+                     style: {textAlign: 'center', paddingLeft: '0'}
                 }}
               />
             </div>
             <div className="w-full h-30  flex flex-row relative pt-10 justify-center gap-3 border-r-2 border-schin-gray-strong">
-              <Text size="large" className="text-schin-white absolute top-0 ">
+              <Text size="large" className="text-schin-gray-light absolute top-0 ">
                 Diminuir tamanho de arquivo
               </Text>
               <Button
@@ -496,7 +498,7 @@ export default function ImageFormat() {
               />
             </div>
             <div className="w-full h-30  flex flex-row relative pt-10 justify-center gap-3">
-              <Text size="large" className="text-schin-white absolute top-0 ">
+              <Text size="large" className="text-schin-gray-light absolute top-0 ">
                 Diminuir proporção
               </Text>
               <Button
@@ -525,7 +527,7 @@ export default function ImageFormat() {
               />
             </div>
             <div className="w-full h-30  flex flex-row relative pt-10 justify-center gap-3 border-r-2 border-schin-gray-strong">
-              <Text size="large" className="text-schin-white absolute top-0 ">
+              <Text size="large" className="text-schin-gray-light absolute top-0 ">
                 Formatação inteligente
               </Text>
               <Button

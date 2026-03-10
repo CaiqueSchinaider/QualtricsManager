@@ -1,12 +1,15 @@
 import toast from "react-hot-toast";
 import Button from "../Misc/Button";
 import Text from "../Misc/Text";
+import ReactCodeMirror from "@uiw/react-codemirror";
+import { dracula } from "@uiw/codemirror-theme-dracula";
+import { javascript } from "@codemirror/lang-javascript";
 
 interface PopUpProps {
   text: string;
   back: () => void;
   linkToCheck?: string;
-  preset: "linklive" | "qa" | "view";
+  preset: "linklive" | "qa" | "view" | 'script';
   editScript?: boolean;
 }
 
@@ -59,15 +62,28 @@ export default function PopUp({
   return (
     <div className=" select-none w-screen h-screen backdrop-blur-2xl flex justify-center items-center fixed top-0 left-0 z-1000">
       <div className="relative flex justify-start pt-5 gap-5 items-center flex-col w-6/10 min-h-150  h-7/10 bg-schin-black rounded-2xl border border-schin-gray-strong">
-        <Text size="large" className="text-schin-white">
+        <Text size="extra large" className="text-schin-gray-light">
           {preset === "view"
             ? "Visualizando o conteúdo"
             : "Verifique e copie a mensagem"}
         </Text>
+        {preset === 'script' ? (  
+        <ReactCodeMirror
+            value={text}
+            theme={dracula}
+            editable={false}
+            height="100%"
+            extensions={[javascript()]}
+            className="w-9/10 h-15/20 resize-none font-code p-10 text-schin-black border-schin-gray-strong border rounded-lg  hide-scrollbar"
+        />
+        ) : 
+        (
         <textarea
-          value={text}
-          className="w-9/10 h-15/20 resize-none p-10 text-schin-white border-schin-gray-strong border rounded-lg  hide-scrollbar"
-        ></textarea>
+            value={text}
+            className="w-9/10 h-15/20 resize-none font-code p-10 text-schin-white border-schin-gray-strong border rounded-lg  hide-scrollbar"
+        ></textarea>)}
+      
+        
         <div className="flex justify-center gap-5 items-center flex-row  w-100">
           <Button
             text="Copiar"
