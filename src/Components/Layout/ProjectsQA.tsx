@@ -306,7 +306,7 @@ ${textQa}
       {promisseBackup ? (
         <section className=" w-full h-full flex flex-col items-center  select-none">
           <Text size="custom" className="text-4xl pt-15 pb-5 select-none  font-protest text-schin-gray-light"> 
-                          Visualize e/ou copie um script
+                          Escreva suas anotações
                       </Text>
           <div className="w-full h-7/10  pt-5 flex justify-center items-center">
             <textarea
