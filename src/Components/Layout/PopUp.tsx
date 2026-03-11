@@ -80,7 +80,8 @@ export default function PopUp({
         (
         <textarea
             value={text}
-            className="w-9/10 h-15/20 resize-none font-code p-10 text-schin-white border-schin-gray-strong border rounded-lg  hide-scrollbar"
+            spellCheck={false}
+            className=" w-9/10 h-15/20 resize-none font-code p-10 text-schin-white border-schin-gray-strong border rounded-lg  hide-scrollbar"
         ></textarea>)}
       
         

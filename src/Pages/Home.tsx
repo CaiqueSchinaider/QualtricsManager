@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import NavBar from "../Components/Layout/NavBar";
 import { useState } from "react";
+import TranslateButton from "../Components/Misc/TranslateButton";
 
 export default function HomePage() {
   const [minimize, setMinimize] = useState<boolean>(false);
@@ -28,6 +29,8 @@ export default function HomePage() {
           className={width < 1400 ? " w-7 h-7" : " w-8 h-8"}
         />
       </button>
+
+      <TranslateButton />
 
       <NavBar signalMinimize={minimize} />
       <div

@@ -4,13 +4,13 @@ import Text from "../Misc/Text"
 import PopUp from "./PopUp";
 import toast from "react-hot-toast";
 
+
 interface viewSignalProps {
     signal: boolean;
     scriptText: string;
     scriptEdit: boolean,
     preset: 'script' | 'view'
 }
-
 interface scriptDB {
     name: string;
     script: string;

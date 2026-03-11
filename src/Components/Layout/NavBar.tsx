@@ -46,7 +46,7 @@ export default function NavBar({ signalMinimize }: NavBarProps) {
         </Text>
       </div>
       <div
-        className={` ${height < 800 ? "gap-4" : "gap-5"} h-100 w-full mt-15 flex flex-col justify-start items-center `}
+        className={` ${height < 800 ? "gap-4" : "gap-5"} h-110  w-full mt-15 flex flex-col justify-start items-center `}
       >
         <Button
           text="Criar Link LIVE"
@@ -75,6 +75,13 @@ export default function NavBar({ signalMinimize }: NavBarProps) {
           onChildClick={() => navigate("/imageformat")}
           contrastStyle
           activate={currentLocation === "/imageformat"}
+        />
+        <Button
+          text="Layouts/Cards"
+          size={height < 800 ? "medium" : "large"}
+          onChildClick={() => navigate("/layouts")}
+          contrastStyle
+          activate={currentLocation === "/layouts"}
         />
         
         <button className="bottom-5 absolute w-48 h-15 border-schin-cyan rounded-2xl border text-schin-cyan flex flex-row items-center justify-center gap-2 cursor-pointer hover:scale-98 duration-105 transition-all" onClick={() => downloadBase()}>
