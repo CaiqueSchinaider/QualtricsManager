@@ -167,7 +167,7 @@ export default function TranslatePopUp(props: TranslatePopUpProps) {
         <textarea
         value={text}
           onChange={(e) => setText(e.target.value)}
-          className="pb-20 pr-5  hide-scrollbar resize-none w-4/10 h-full text-schin-gray-light pt-20 pl-5 pr-5 border-r-2 border-schin-gray-strong"
+          className="pb-20 pr-5  hide-scrollbar resize-none w-4/10 h-full text-schin-gray-light pt-20 pl-5  border-r-2 border-schin-gray-strong"
         ></textarea>
         <Text
           size="extra large"
