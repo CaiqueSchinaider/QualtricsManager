@@ -4,7 +4,7 @@ import Text from "../Misc/Text";
 import ReactCodeMirror from "@uiw/react-codemirror";
 import { dracula } from "@uiw/codemirror-theme-dracula";
 import { javascript } from "@codemirror/lang-javascript";
-
+import { motion } from "framer-motion";
 interface PopUpProps {
   text: string;
   back: () => void;
@@ -60,7 +60,12 @@ export default function PopUp({
   editScript,
 }: PopUpProps) {
   return (
-    <div className=" select-none w-screen h-screen backdrop-blur-2xl flex justify-center items-center fixed top-0 left-0 z-1000">
+    <motion.div
+      initial={{  opacity: 0 }}
+        animate={{  opacity: 1 }}
+        transition={{ duration: 0.2 }}
+    
+    className=" select-none w-screen h-screen backdrop-blur-2xl flex justify-center items-center fixed top-0 left-0 z-1000">
       <div className="relative flex justify-start pt-5 gap-5 items-center flex-col w-6/10 min-h-150  h-7/10 bg-schin-black rounded-2xl border border-schin-gray-strong">
         <Text size="extra large" className="text-schin-gray-light">
           {preset === "view"
@@ -101,6 +106,6 @@ export default function PopUp({
           <Button text="Voltar" size="small" onChildClick={back} />
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

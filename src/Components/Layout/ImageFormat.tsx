@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../Misc/Button";
 import Input from "../Misc/Input";
 import Text from "../Misc/Text";
@@ -6,13 +6,24 @@ import toast from "react-hot-toast";
 import imageCompression from "browser-image-compression";
 import Pica from "pica";
 import JSZip from "jszip";
+import { motion } from "framer-motion";
+
 
 export default function ImageFormat() {
   const [width, setWidth] = useState<number>(innerWidth);
 
-  window.addEventListener("resize", () => {
-    setWidth(innerWidth);
-  });
+  useEffect(() => {
+  function handleResize() {
+    setWidth(window.innerWidth)
+    
+  }
+
+  window.addEventListener("resize", handleResize)
+
+  return () => {
+    window.removeEventListener("resize", handleResize)
+  }
+}, [])
 
   const [files, setFiles] = useState<File[]>([]);
   const [ext, setExt] = useState<number>(0);
@@ -173,7 +184,11 @@ export default function ImageFormat() {
   }
 
   return (
-    <section className={`${width! < 1120 ? "flex justify-center items-center flex-col" : ""}w-full h-full select-none`}>
+    <motion.div
+      initial={{  opacity: 0 }}
+        animate={{  opacity: 1 }}
+        transition={{ duration: 0.2 }}
+    className={`${width! < 1120 ? "flex justify-center items-center flex-col" : ""}w-full h-full select-none`}>
       {width! > 1120 ? (
         <>
           <div className="w-full  h-20 mt-20">
@@ -560,6 +575,6 @@ export default function ImageFormat() {
           </div>
         </section>
       )}
-    </section>
+    </motion.div>
   );
 }

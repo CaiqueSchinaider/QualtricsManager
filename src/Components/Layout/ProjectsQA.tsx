@@ -4,7 +4,7 @@ import Text from "../Misc/Text";
 import toast from "react-hot-toast";
 import PopUp from "./PopUp";
 import { GoogleGenAI } from "@google/genai";
-
+import { motion } from "framer-motion";
 interface copySignalProps {
   signal: boolean;
   resposta: string;
@@ -41,9 +41,11 @@ Formatar o conteúdo fornecido ao final deste prompt seguindo EXATAMENTE as regr
 ESTRUTURA OBRIGATÓRIA DA MENSAGEM FINAL
 ==================================================================
 
-A mensagem final deve começar com a tradução exata da seguinte frase:
+A mensagem final deve começar com a tradução exata (Exata caso não tenha um em especifico) da seguinte frase: 
 
 "Olá Equipe! Segue alguns pontos para possíveis ajustes que encontrei"
+
+Caso no texto original tenha saudações como "Boa tarde", "Bom dia" etc pode manter e traduzir mas não adicione por conta propria
 
 Regras da primeira frase:
 
@@ -166,6 +168,17 @@ Em vez disso:
 - Não adicionar comentários extras.
 - Não adicionar explicações.
 - Ainda sim ter a saudação inicial como 'Olá equipe!'
+
+ Caso o usuario diga que não encontrou pontos de ajustes na programação, porém, cita alguns pequenos detalhes, por exemplo:
+
+ "Boa tarde equipe! Não consegui encontrar erros de programação. Segue apenas alguns detalhes:
+
+    Q18 - Negrito também na palavra 'TV'
+
+    Q20 - No segundo paragrafo adicionar negrito na palavra Fórmula 1"
+
+
+    Manter o "Não consegui encontrar erros de programação. Segue apenas alguns detalhes:" Ou texto ou tradução similar
 
 ==================================================================
 IDIOMA
@@ -304,8 +317,12 @@ ${textQa}
       ) : null}
 
       {promisseBackup ? (
-        <section className=" w-full h-full flex flex-col items-center  select-none">
-          <Text size="custom" className="text-4xl pt-15 pb-5 select-none  font-protest text-schin-gray-light"> 
+        <motion.div
+        initial={{  opacity: 0 }}
+        animate={{  opacity: 1 }}
+        transition={{ duration: 0.2 }}
+        className=" w-full h-full flex flex-col items-center  select-none">
+          <Text size="custom" className="text-4xl pt-15 pb-5 select-none  font-protest text-schin-gray-light mt-4"> 
                           Escreva suas anotações
                       </Text>
           <div className="w-full h-7/10  pt-5 flex justify-center items-center">
@@ -355,7 +372,7 @@ ${textQa}
               />
             </div>
           </div>
-        </section>
+        </motion.div>
       ) : null}
     </>
   );

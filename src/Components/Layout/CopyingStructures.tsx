@@ -19,6 +19,20 @@ interface viewSignalProps {
 
 export default function CopyingStructures() {
     const [structures, setStructures] = useState<StructureProps[]>([])
+    const [width, setWidth] = useState<number>(innerWidth)
+
+    useEffect(() => {
+  function handleResize() {
+    setWidth(window.innerWidth)
+    
+  }
+
+  window.addEventListener("resize", handleResize)
+
+  return () => {
+    window.removeEventListener("resize", handleResize)
+  }
+}, [])
 
     const [viewSignal, setViewSignal] = useState<viewSignalProps>({
         signal:  false,
@@ -50,12 +64,17 @@ export default function CopyingStructures() {
         })} 
     
     />) : (null)}
-        <section className="w-full h-full flex justify-start items-center flex-col">
-            <Text size="custom" className="text-4xl pt-15 pb-5 select-none font-protest text-schin-gray-light"> 
+        <motion.div
+          initial={{  opacity: 0 }}
+        animate={{  opacity: 1 }}
+        transition={{ duration: 0.2 }}
+        
+        className="w-full h-full flex justify-start items-center flex-col">
+            <Text size="custom" className="text-4xl pt-15 pb-5 select-none font-protest mt-8 text-schin-gray-light"> 
               Escolha um Componente
             </Text>
             {structures ? (
-        <div className=" w-full pt-5 mt-5 grid grid-cols-[400px_400px_400px] auto-rows-[440px] grid-rows-[440px] justify-center gap-5  h-full overflow-scroll hide-scrollbar">
+        <div className={` ${width > 1350 ? 'grid-cols-[400px_400px_400px]' : width > 850 ?  'grid-cols-[400px_400px]' : 'grid-cols-[400px]'} w-full pt-5 mt-5 grid  auto-rows-[440px] grid-rows-[440px] justify-center gap-5  h-full overflow-scroll hide-scrollbar`}>
                {structures?.map((structure,i) => (
                  <motion.div initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -108,7 +127,7 @@ export default function CopyingStructures() {
             </div>
         ) : (null)}
          
-        </section>
+        </motion.div>
         </>
     )
 }

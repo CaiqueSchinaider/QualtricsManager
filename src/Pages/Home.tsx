@@ -3,14 +3,17 @@ import NavBar from "../Components/Layout/NavBar";
 import { useState } from "react";
 import TranslateButton from "../Components/Misc/TranslateButton";
 import TranslatePopUp from "../Components/Layout/TranslatePopUp";
+import Text from "../Components/Misc/Text";
 
 export default function HomePage() {
   const [minimize, setMinimize] = useState<boolean>(false);
   const [translateSignal, setTranslateSignal] = useState<boolean>(false);
   const [width, setWidth] = useState<number>(window.innerWidth);
-
+  const [height, setHeight] = useState<number>(window.innerHeight);
   window.addEventListener("resize", () => {
     setWidth(window.innerWidth);
+     setHeight(window.innerHeight)
+
   });
 
   function handleMinimize() {
@@ -32,7 +35,15 @@ export default function HomePage() {
           className={width < 1400 ? " w-7 h-7" : " w-8 h-8"}
         />
       </button>
-
+    {height < 720 ? (  <button className="top-6 right-25 absolute w-48 h-13 border-schin-cyan rounded-2xl border text-schin-cyan flex flex-row items-center justify-center gap-2 cursor-pointer hover:scale-98 duration-105 transition-all" onClick={() => downloadBase()}>
+                  <img src="downloadicon.png" className="w-7"/>
+                  <Text size="small">
+                  Baixar Base Survey
+                  </Text>
+              </button>) : (null)
+    }
+      
+      
       <TranslateButton translatePopUpSignal={() => setTranslateSignal(true)} />
 
       <NavBar signalMinimize={minimize} />

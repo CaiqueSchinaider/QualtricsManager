@@ -26,9 +26,18 @@ export default function Listscripts() {
     const [scripts, setScripts] = useState<scriptDB[]>([])
     const [width, setWidth] = useState<number>(window.innerWidth) 
     
-    window.addEventListener('resize', () => {
-        setWidth(window.innerWidth)
-    })
+   useEffect(() => {
+  function handleResize() {
+    setWidth(window.innerWidth)
+    
+  }
+
+  window.addEventListener("resize", handleResize)
+
+  return () => {
+    window.removeEventListener("resize", handleResize)
+  }
+}, [])
 
     const [viewSignal, setViewSignal] = useState<viewSignalProps>({
         signal:  false,
@@ -65,8 +74,12 @@ export default function Listscripts() {
         preset: 'view'
     })} />) : (null)}
 
-        <section className=" w-full h-full flex justify-center flex-col items-center">
-            <Text size="custom" className="text-4xl pt-15 pb-5 select-none  font-protest text-schin-gray-light"> 
+        <motion.div 
+          initial={{  opacity: 0 }}
+        animate={{  opacity: 1 }}
+        transition={{ duration: 0.2 }}
+        className=" w-full h-full flex justify-center flex-col items-center">
+            <Text size="custom" className="text-4xl pt-15 mt-8 pb-5 select-none  font-protest text-schin-gray-light"> 
                 Visualize e/ou copie um script
             </Text>
                 <div className="w-10/10 h-9/10 flex flex-col items-center py-5 gap-5 overflow-y-scroll hide-scrollbar">
@@ -77,7 +90,7 @@ export default function Listscripts() {
                     <motion.div
                     initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.08 }}
+                transition={{ delay: i * 0.03 }}
 
                     className={` ${width!  > 650 ? 'w-8/10' : 'w-19/20'}  shadow-2xl hover:scale-99 duration-300 shadow-[#000] min-h-20 min-w-100 h-20 border   border-schin-gray-strong rounded-2xl flex flex-row`}>
                         <div className="  w-11/20 h-full  flex justify-start items-center pl-5 select-none">
@@ -130,7 +143,7 @@ export default function Listscripts() {
                 
 
                 </div>
-        </section>''
+        </motion.div>''
         </>
     )
 }

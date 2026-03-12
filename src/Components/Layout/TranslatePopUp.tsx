@@ -3,8 +3,13 @@ import Button from "../Misc/Button";
 import Text from "../Misc/Text";
 import { GoogleGenAI } from "@google/genai";
 import toast from "react-hot-toast";
-
+import PopUp from "./PopUp";
+import { motion } from "framer-motion";
 interface SignalProcessandoProps {
+  signal: boolean;
+  text: string;
+}
+interface SignalTranslatePopUpProps {
   signal: boolean;
   text: string;
 }
@@ -16,6 +21,18 @@ interface TranslatePopUpProps {
 }
 
 export default function TranslatePopUp(props: TranslatePopUpProps) {
+  const [width, setWidth] = useState<number>(window.innerWidth)
+  const [height, setHeight] = useState<number>(window.innerHeight)
+
+  window.addEventListener('resize', () => {
+    setWidth(window.innerWidth)
+    setHeight(window.innerHeight)
+  })
+
+  const [translatePopUp, setTranslatePopUp] = useState<SignalTranslatePopUpProps>({
+    signal: false,
+    text: ''
+  })
   const [idioma, setIdioma] = useState<string>("Português");
   const [tom, setTom] = useState<string>("Neutro");
   const [text, setText] = useState<string>("");
@@ -103,10 +120,23 @@ export default function TranslatePopUp(props: TranslatePopUpProps) {
     })
     toast.loading('Traduzindo...')
     const resposta = await perguntar(prompt)
-    if(resposta) {
+    if(resposta   &&  width > 1050) {
       toast.dismiss();
       setTranslationText(resposta)
       toast.success('Tradução concluida')
+      setSignalProcessando({
+        signal: false,
+        text: "Traduzir",
+        
+      })
+    } else if (resposta && width <= 1050) {
+      toast.dismiss();
+      setTranslationText(resposta)
+      toast.success('Tradução concluida')
+      setTranslatePopUp({
+        signal: true,
+        text: resposta,
+      })
       setSignalProcessando({
         signal: false,
         text: "Traduzir",
@@ -153,29 +183,46 @@ export default function TranslatePopUp(props: TranslatePopUpProps) {
   }
 
   return (
-    <section className=" backdrop-blur-3xl w-full h-screen fixed z-4 top-0 flex justify-center items-center">
-      {promisseBackup ? (<>   <button onClick={props.minimize} className="w-70 h-13 rounded-2xl border-2 border-schin-cyan flex justify-center items-center pb-0  absolute top-25 hover:cursor-pointer hover:scale-98 duration-300">
-        <img src="arrow.webp" className="w-9 h-14 rotate-270" />
-      </button>
+    <motion.div
+      initial={{  opacity: 0 }}
+        animate={{  opacity: 1 }}
+        transition={{ duration: 0.2 }}
+    className=" backdrop-blur-3xl w-full h-screen fixed z-4 top-0 flex justify-center items-center">
+     
+      {translatePopUp.signal ? ( <PopUp preset="view" text={translationText} back={() =>  setTranslatePopUp({
+        signal: false,
+        text: ''
+      })}  />) : (null)} 
+     
+      {promisseBackup ? (<>   
       
+    
+    
+      
+        <div className="w-8/10 h-9/10  min-w-150 min-h-120 max-h-155 relative  justify-center items-center">
 
-        
-        <div className=" w-8/10 relative h-9/10 min-w-150 min-h-120 bg-schin-black rounded-2xl border-2 border-schin-gray-strong flex flex-row max-h-155">
-          <button onClick={() => navigator.clipboard.writeText(translationText)} className=" absolute bg-schin-black bottom-3 right-3 w-20 h-13 rounded-2xl border-2 border-schin-gray-strong flex justify-center items-center pb-0  hover:cursor-pointer hover:scale-98 duration-300">
-            <img src="copy.png" className="w-9 h-9 invert-60" />
-          </button>
-        <textarea
-        value={text}
-          onChange={(e) => setText(e.target.value)}
-          className="pb-20 pr-5  hide-scrollbar resize-none w-4/10 h-full text-schin-gray-light pt-20 pl-5  border-r-2 border-schin-gray-strong"
-        ></textarea>
+        {width > 1050 ? (  <button onClick={props.minimize} className={`z-0 top-0 left-1/2 bg-schin-black -translate-x-1/2 -translate-y-19/20  w-70 h-13 rounded-tl-2xl rounded-tr-2xl border-2 border-schin-cyan flex justify-center items-center pb-0  absolute  hover:cursor-pointer hover:scale-98 duration-300`}>
+  <img src="arrow.webp" className="w-9 h-14 rotate-270" />
+</button>) : (null)} 
+        <div className="shadow-2xl z-2 shadow-[#000] w-full relative h-full min-w-150 min-h-120 bg-schin-black rounded-2xl border-2 border-schin-gray-strong flex flex-row max-h-155">
+           {width <= 1050 ? (  
+          <button onClick={props.minimize} className={`top-4  w-13 h-13 bg-schin-black rounded-full border-2 border-schin-cyan flex justify-center items-center pr-1  absolute  left-3 hover:cursor-pointer hover:scale-98 duration-300`}>
+            <img src="arrow.webp" className="w-8 h-8 rotate-180" />
+          </button>) : (null)} 
+
+
+          <textarea
+          value={text}
+            onChange={(e) => setText(e.target.value)}
+            className={`${width > 1050 ? 'w-4/10' : 'w-8/10'} pb-20 pt-2 pr-5 overflow-scroll hide-scrollbar resize-none  h-17/20 mt-20 text-schin-gray-light  pl-5 `}
+          />
         <Text
           size="extra large"
-          className="font-protest font-light py-1 px-5 rounded-xl bg-schin-gray-strong text-schin-black  absolute top-5 left-5"
+          className={`${width > 1050 ? ('left-5') : ('left-20')} font-protest font-light py-1 px-5 rounded-xl bg-schin-gray-strong text-schin-black  absolute top-5 left-5`}
         >
-          Entrada
+          {width > 1050 ? 'Entrada' : 'Texto Original'}
         </Text>
-        <div className="w-2/10 h-full  flex flex-col">
+        <div className=" border-l-2 border-schin-gray-strong w-2/10 h-full min-w-50  flex flex-col">
           <div className="mt-5 w-full h-70 flex justify-center items-center flex-col gap-3">
             <Text
               size="extra large"
@@ -231,19 +278,30 @@ export default function TranslatePopUp(props: TranslatePopUpProps) {
             <Button size="medium" text={signalProcessando.text} onChildClick={() => handleTranslate()} block={signalProcessando.signal} contrastStyle />
           </div>
         </div>
+        {width > 1050 ? ( <>
         <textarea
           readOnly
           value={translationText}
           className="hide-scrollbar resize-none w-4/10 pb-20 pr-5 h-full text-schin-gray-light pt-20 pl-5 border-l-2 border-schin-gray-strong"
         />
-        <Text
+         <Text
           size="extra large"
-          className="font-protest font-light py-1 px-5 rounded-xl bg-schin-gray-strong text-schin-black  absolute top-5 right-111"
+          className="font-protest font-light py-1 px-5 rounded-xl bg-schin-gray-strong text-schin-black  absolute top-5 right-5"
         >
           Tradução
         </Text>
-      </div></>): (null)}
+        <button onClick={() => navigator.clipboard.writeText(translationText)} className=" absolute bg-schin-black bottom-3 right-3 w-20 h-13 rounded-2xl border-2 border-schin-gray-strong flex justify-center items-center pb-0  hover:cursor-pointer hover:scale-98 duration-300">
+            <img src="copy.png" className="w-9 h-9 invert-60" />
+          </button>
+        </> 
+        ) : (null)}
+      
+       
+      </div>
+        </div>
+        
+      </>): (null)}
     
-    </section>
+    </motion.div>
   );
 }

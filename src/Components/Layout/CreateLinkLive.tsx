@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../Misc/Button";
 import Input from "../Misc/Input";
 import Text from "../Misc/Text";
 import { GoogleGenAI } from "@google/genai";
 import PopUp from "./PopUp";
 import toast from "react-hot-toast";
-
+import { motion } from "framer-motion";
 const API_KEY = "AIzaSyB3s_ZKT9Pxwhj15Y68sfxZf6f4fTavhqk";
 const ai = new GoogleGenAI({ apiKey: API_KEY });
 
@@ -37,10 +37,18 @@ export default function CreateLinkLive() {
       text: "Gerar mensagem",
     });
 
-  window.addEventListener("resize", () => {
-    setWidth(window.innerWidth);
-    setHeight(window.innerHeight);
-  });
+  useEffect(() => {
+  function handleResize() {
+    setWidth(window.innerWidth)
+    setHeight(window.innerHeight)
+  }
+
+  window.addEventListener("resize", handleResize)
+
+  return () => {
+    window.removeEventListener("resize", handleResize)
+  }
+}, [])
 
   function handleSetParams(prm: string) {
     let signalPrm = params.includes(prm);
@@ -392,7 +400,12 @@ ${obs}
         />
       ) : null}
 
-      <section
+      <motion.div 
+
+          initial={{  opacity: 0 }}
+        animate={{  opacity: 1 }}
+        transition={{ duration: 0.2 }}
+
         className={`w-full h-full flex flex-col justify-start items-center select-none`}
       >
         <div
@@ -647,7 +660,7 @@ ${obs}
             ) : null}
           </div>
         </div>
-      </section>
+      </motion.div>
     </>
   );
 }

@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import Button from "../Misc/Button";
 import Text from "../Misc/Text";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface NavBarProps {
   signalMinimize: boolean;
@@ -14,11 +14,18 @@ export default function NavBar({ signalMinimize }: NavBarProps) {
   let location = useLocation();
   let currentLocation = location.pathname;
 
-  window.addEventListener("resize", () => {
-    setWidth(window.innerWidth);
-    setHeight(window.innerHeight);
-  });
+  useEffect(() => {
+  function handleResize() {
+    setWidth(window.innerWidth)
+    setHeight(window.innerHeight)
+  }
 
+  window.addEventListener("resize", handleResize)
+
+  return () => {
+    window.removeEventListener("resize", handleResize)
+  }
+}, [])
   function downloadBase() {
     const link = document.createElement("a");
     link.href = "/files/BASE_SURVEY_NEW.qsf";
@@ -37,8 +44,9 @@ export default function NavBar({ signalMinimize }: NavBarProps) {
       ${width > 1700 && !signalMinimize ? "w-125 duration-500" : ""}
       flex flex-col z-1 bg-schin-black  h-full pt-20  border-r-2 border-schin-cyan select-none  `}
     >
+    
       <div
-        className={` ${height < 800 ? "mt-0" : "mt-15"} w-full  h-30 flex justify-center items-center  relative `}
+        className={` ${height < 850 ? "mt-0" : "mt-15"} w-full  h-30 flex justify-center items-center  relative `}
       >
         <img src="title.png" />
         <Text size="small" className="absolute font-tech bottom-3 right-10 invert-30">
@@ -46,50 +54,56 @@ export default function NavBar({ signalMinimize }: NavBarProps) {
         </Text>
       </div>
       <div
-        className={` ${height < 800 ? "gap-4" : "gap-5"} h-110  w-full mt-15 flex flex-col justify-start items-center `}
+        className={` ${height < 850 ? "gap-4" : "gap-5"} h-110  overflow-scroll hide-scrollbar  w-full mt-15 flex flex-col justify-start items-center `}
       >
         <Button
           text="Criar Link LIVE"
-          size={height < 800 ? "medium" : "large"}
+          size={height < 850 ? "medium" : "large"}
           onChildClick={() => navigate("/")}
           contrastStyle
+         
           activate={currentLocation === "/"}
+          className="min-h-15"
         />
         <Button
           text="Testes QA"
-          size={height < 800 ? "medium" : "large"}
+          size={height < 850 ? "medium" : "large"}
           onChildClick={() => navigate("/qa")}
           contrastStyle
+          className="min-h-15"
           activate={currentLocation === "/qa"}
         />
         <Button
           text="Scripts"
-          size={height < 800 ? "medium" : "large"}
+          size={height < 850 ? "medium" : "large"}
           onChildClick={() => navigate("/scripts")}
           contrastStyle
+          className="min-h-15"
           activate={currentLocation === "/scripts"}
         />
         <Button
           text="Formatar/Converter Imagem"
-          size={height < 800 ? "medium" : "large"}
+          size={height < 850 ? "medium" : "large"}
           onChildClick={() => navigate("/imageformat")}
           contrastStyle
+          className="min-h-15"
           activate={currentLocation === "/imageformat"}
         />
         <Button
           text="Layouts/Cards"
-          size={height < 800 ? "medium" : "large"}
+          size={height < 850 ? "medium" : "large"}
           onChildClick={() => navigate("/layouts")}
           contrastStyle
+          className="min-h-15"
           activate={currentLocation === "/layouts"}
         />
-        
-        <button className="bottom-5 absolute w-48 h-15 border-schin-cyan rounded-2xl border text-schin-cyan flex flex-row items-center justify-center gap-2 cursor-pointer hover:scale-98 duration-105 transition-all" onClick={() => downloadBase()}>
+        {height >= 720 ?  ( <button className="bottom-5 absolute w-48 h-15 border-schin-cyan rounded-2xl border text-schin-cyan flex flex-row items-center justify-center gap-2 cursor-pointer hover:scale-98 duration-105 transition-all" onClick={() => downloadBase()}>
             <img src="downloadicon.png" className="w-7"/>
             <Text size="small">
             Baixar Base Survey
             </Text>
-        </button>
+        </button>) : (null) }
+       
         </div>
         
     </nav>
