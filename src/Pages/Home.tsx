@@ -22,7 +22,7 @@ export default function HomePage() {
   }
   return (
     <main className="bg-schin-black w-screen  h-screen flex flex-row relative">
-      {translateSignal ? <TranslatePopUp /> : null}
+      {translateSignal ? <TranslatePopUp minimize={() => setTranslateSignal(false)}/> : null}
       <button
         onClick={() => handleMinimize()}
         className={` ${width < 1400 ? " w-12 h-12" : " w-15 h-15"} border-2  border-schin-cyan  rounded-full select-none z-2 duration-500 cursor-pointer hover:scale- flex justify-center items-center  absolute top-6 left-4 pl-1 ${minimize ? "" : "rotate-180 "}  `}

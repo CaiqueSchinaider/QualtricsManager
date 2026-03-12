@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Text from "../Misc/Text";
 import getDataFirebase from "../../getFirebase";
 import PopUp from "./PopUp";
-
+import { motion } from "framer-motion";
 interface StructureProps {
     html: string;
     script: string;
@@ -55,9 +55,12 @@ export default function CopyingStructures() {
               Escolha um Componente
             </Text>
             {structures ? (
-        <div className=" w-full mt-5 grid grid-cols-[400px_400px_400px] auto-rows-[440px] grid-rows-[440px] justify-center gap-5  h-full overflow-scroll hide-scrollbar">
-               {structures?.map((structure) => (
-                 <div  className="border border-schin-gray-strong shadow-2xl shadow-[#000] rounded-2xl overflow-hidden w-100 h-110 flex flex-col ">
+        <div className=" w-full pt-5 mt-5 grid grid-cols-[400px_400px_400px] auto-rows-[440px] grid-rows-[440px] justify-center gap-5  h-full overflow-scroll hide-scrollbar">
+               {structures?.map((structure,i) => (
+                 <motion.div initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.12 }}
+  className="border border-schin-gray-strong shadow-2xl shadow-[#000] rounded-2xl overflow-hidden w-100 h-110 flex flex-col ">
                     <div  className="w-full h-16/20 flex justify-center items-center">
                             <div dangerouslySetInnerHTML={{__html: structure.html }} className=" select-none bg-schin-gray-light shadow-md shadow-[#000] rounded-2xl">
                             </div>
@@ -93,7 +96,7 @@ export default function CopyingStructures() {
                             <img src="info.webp" className="invert-60 w-9 h-9 cursor-pointer"/>
                             </button>
                     </div> 
-                </div>
+                </motion.div>
                ))}
                
                 

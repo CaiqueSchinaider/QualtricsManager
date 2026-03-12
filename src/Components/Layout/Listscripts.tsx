@@ -3,7 +3,7 @@ import getDataFirebase from "../../getFirebase"
 import Text from "../Misc/Text"
 import PopUp from "./PopUp";
 import toast from "react-hot-toast";
-
+import { motion } from "framer-motion";
 
 interface viewSignalProps {
     signal: boolean;
@@ -72,9 +72,14 @@ export default function Listscripts() {
                 <div className="w-10/10 h-9/10 flex flex-col items-center py-5 gap-5 overflow-y-scroll hide-scrollbar">
 
 
-                    {scripts.map((code) => (
+                    {scripts.map((code, i) => (
 
-                    <div className={` ${width!  > 650 ? 'w-8/10' : 'w-19/20'}  shadow-2xl hover:scale-99 duration-300 shadow-[#000] min-h-20 min-w-100 h-20 border   border-schin-gray-strong rounded-2xl flex flex-row`}>
+                    <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.08 }}
+
+                    className={` ${width!  > 650 ? 'w-8/10' : 'w-19/20'}  shadow-2xl hover:scale-99 duration-300 shadow-[#000] min-h-20 min-w-100 h-20 border   border-schin-gray-strong rounded-2xl flex flex-row`}>
                         <div className="  w-11/20 h-full  flex justify-start items-center pl-5 select-none">
                             <picture className="flex mr-2.5 w-14 h-14 justify-center items-center ">
                                 <img style={code.imgStyle} src={code.scriptImg} />
@@ -118,7 +123,7 @@ export default function Listscripts() {
                                 </button>) : (null)}
                               
                         </div>
-                    </div>
+                    </motion.div>
                     ) )}
 
                 
