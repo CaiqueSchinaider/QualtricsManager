@@ -22,11 +22,11 @@ interface TranslatePopUpProps {
 
 export default function TranslatePopUp(props: TranslatePopUpProps) {
   const [width, setWidth] = useState<number>(window.innerWidth)
-  const [height, setHeight] = useState<number>(window.innerHeight)
+  
 
   window.addEventListener('resize', () => {
     setWidth(window.innerWidth)
-    setHeight(window.innerHeight)
+    
   })
 
   const [translatePopUp, setTranslatePopUp] = useState<SignalTranslatePopUpProps>({

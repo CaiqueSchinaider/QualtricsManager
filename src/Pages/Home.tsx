@@ -16,6 +16,15 @@ export default function HomePage() {
 
   });
 
+ function downloadBase() {
+    const link = document.createElement("a");
+    link.href = "/files/BASE_SURVEY_NEW.qsf";
+    link.download = "BASE_SURVEY_NEW.qsf.qsf";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
   function handleMinimize() {
     if (minimize) {
       setMinimize(false);
