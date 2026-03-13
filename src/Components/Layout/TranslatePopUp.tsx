@@ -182,6 +182,15 @@ export default function TranslatePopUp(props: TranslatePopUpProps) {
     }
   }
 
+
+    function handleCopyTranslate() {
+      if (!translationText) {
+        toast.error('Nenhum texto para copiar')
+        return;
+      }
+       navigator.clipboard.writeText(translationText)
+      toast.success('Copiado')
+    }
   return (
     <motion.div
       initial={{  opacity: 0 }}
@@ -290,7 +299,7 @@ export default function TranslatePopUp(props: TranslatePopUpProps) {
         >
           Tradução
         </Text>
-        <button onClick={() => navigator.clipboard.writeText(translationText)} className=" absolute bg-schin-black bottom-3 right-3 w-20 h-13 rounded-2xl border-2 border-schin-gray-strong flex justify-center items-center pb-0  hover:cursor-pointer hover:scale-98 duration-300">
+        <button onClick={() => handleCopyTranslate()} className=" absolute bg-schin-black bottom-3 right-3 w-20 h-13 rounded-2xl border-2 border-schin-gray-strong flex justify-center items-center pb-0  hover:cursor-pointer hover:scale-98 duration-300">
             <img src="copy.png" className="w-9 h-9 invert-60" />
           </button>
         </> 
