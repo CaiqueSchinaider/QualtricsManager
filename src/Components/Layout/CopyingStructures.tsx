@@ -47,7 +47,7 @@ export default function CopyingStructures() {
     },[])
 
         async function getData() {
-         let dados = await getDataFirebase<StructureProps>('structures')
+         let dados = await getDataFirebase('layouts')
          if (dados) {
              setStructures(dados)
          }

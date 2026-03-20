@@ -24,6 +24,7 @@ function checkParams(urlString: string) {
     sel: "2",
     region: "2",
     am: "2",
+    state: "2",
   };
 
   Object.entries(valores).forEach(([param, valor]) => {

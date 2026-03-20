@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import PopUp from "./PopUp";
 import { GoogleGenAI } from "@google/genai";
 import { motion } from "framer-motion";
+
 interface copySignalProps {
   signal: boolean;
   resposta: string;
@@ -15,8 +16,8 @@ interface SignalProcessandoProps {
   text: string;
 }
 
-const API_KEY = "AIzaSyB3s_ZKT9Pxwhj15Y68sfxZf6f4fTavhqk";
-const ai = new GoogleGenAI({ apiKey: API_KEY });
+
+const ai = new GoogleGenAI({ apiKey: 'AIzaSyB3s_ZKT9Pxwhj15Y68sfxZf6f4fTavhqk' });
 
 export default function ProjectsQA() {
   const [idioma, setIdioma] = useState("Portugues");

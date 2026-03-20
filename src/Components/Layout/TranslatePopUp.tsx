@@ -5,6 +5,7 @@ import { GoogleGenAI } from "@google/genai";
 import toast from "react-hot-toast";
 import PopUp from "./PopUp";
 import { motion } from "framer-motion";
+
 interface SignalProcessandoProps {
   signal: boolean;
   text: string;
@@ -13,8 +14,9 @@ interface SignalTranslatePopUpProps {
   signal: boolean;
   text: string;
 }
-const API_KEY = "AIzaSyB3s_ZKT9Pxwhj15Y68sfxZf6f4fTavhqk";
-const ai = new GoogleGenAI({ apiKey: API_KEY });
+
+
+const ai = new GoogleGenAI({ apiKey: 'AIzaSyB3s_ZKT9Pxwhj15Y68sfxZf6f4fTavhqk'});
 
 interface TranslatePopUpProps {
   minimize: () => void

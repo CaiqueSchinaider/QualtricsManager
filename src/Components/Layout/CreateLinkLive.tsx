@@ -6,8 +6,10 @@ import { GoogleGenAI } from "@google/genai";
 import PopUp from "./PopUp";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
-const API_KEY = "AIzaSyB3s_ZKT9Pxwhj15Y68sfxZf6f4fTavhqk";
-const ai = new GoogleGenAI({ apiKey: API_KEY });
+
+
+
+const ai = new GoogleGenAI({ apiKey: 'AIzaSyB3s_ZKT9Pxwhj15Y68sfxZf6f4fTavhqk' });
 
 interface SignalCopyProps {
   signal: boolean;

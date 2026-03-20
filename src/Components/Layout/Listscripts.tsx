@@ -53,7 +53,7 @@ export default function Listscripts() {
         },[])
 
         async function getData() {
-         let dados = await getDataFirebase<scriptDB>('scripts')
+         let dados = await getDataFirebase('scripts')
          if (dados) {
              setScripts(dados)
          }
