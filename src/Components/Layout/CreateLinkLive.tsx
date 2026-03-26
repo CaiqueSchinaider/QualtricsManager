@@ -142,6 +142,7 @@ Ordem oficial e imutável dos parâmetros:
 7) region
 8) state
 9) am
+10) city
 
 Regras obrigatórias:
 
