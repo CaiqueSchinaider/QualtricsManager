@@ -1,8 +1,3 @@
-import { initializeApp } from 'firebase/app';
-import { collection, getDocs, getFirestore } from 'firebase/firestore';
-
-
-
 async function getDataFirebase(collection: string) {
   
 

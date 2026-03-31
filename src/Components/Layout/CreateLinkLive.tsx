@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import Button from "../Misc/Button";
 import Input from "../Misc/Input";
 import Text from "../Misc/Text";
-import { GoogleGenAI } from "@google/genai";
 import PopUp from "./PopUp";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
