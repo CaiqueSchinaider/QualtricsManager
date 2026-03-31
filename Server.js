@@ -73,7 +73,7 @@ const __dirname = path.dirname(__filename)
 appServer.use(express.static(path.join(__dirname, 'dist')))
 
 
-appServer.get('*', (req, res) => {
+appServer.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'))
 })
 
