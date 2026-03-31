@@ -2,9 +2,13 @@ import express from 'express'
 import dotenv from 'dotenv'
 import { initializeApp } from 'firebase/app';
 import { collection, getDocs, getFirestore } from 'firebase/firestore';
-
+import { GoogleGenAI } from '@google/genai';
+import cors from 'cors'
 dotenv.config()
 
+
+
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY_GOOGLEGEN });
 const firebaseConfig = {
   apiKey: process.env.API_KEY_FIREBASE,
   authDomain: "offer---snack.firebaseapp.com",
@@ -20,7 +24,9 @@ const db = getFirestore(app);
 
 const appServer = express()
 
-appServer.get('/scripts', async (req, res) => {{
+appServer.use(express.json())
+
+appServer.get('/scripts', async (req, res) => {
     let docsCompact = collection(db, 'scripts')
     let docsList = await getDocs(docsCompact)
     let docsFor = docsList.docs.map((docDB) => ({id: docDB.id, ...docDB.data()}))
@@ -28,16 +34,34 @@ appServer.get('/scripts', async (req, res) => {{
     res.status(200).json(docsFor)
     
 
-}})
-appServer.get('/layouts', async (req, res) => {{
+})
+appServer.get('/layouts', async (req, res) => {
     let docsCompact = collection(db, 'structures')
     let docsList = await getDocs(docsCompact)
     let docsFor = docsList.docs.map((docDB) => ({id: docDB.id, ...docDB.data()}))
-    res.header('Content-Type','text/json')
     res.status(200).json(docsFor)
     
 
-}})
+})
+
+appServer.post('/promptlive', async (req, res) => {
+      const {prompt} = req.body
+    try {
+      const response = await ai.models.generateContent({
+        model: "gemini-2.5-flash",
+        contents: prompt,
+      });
+      res.header('Content-Type', 'text/plain')
+      res.status(200).send(response.candidates[0].content.parts[0].text)
+    } catch (error) {
+      res.header('Content-Type', 'application/json')
+      res.status(400).json({
+        error: true
+      })
+      console.log(error)
+    }
+  
+})
 
 const port = process.env.PORT || 8080
 

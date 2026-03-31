@@ -9,7 +9,7 @@ import { motion } from "framer-motion";
 
 
 
-const ai = new GoogleGenAI({ apiKey: 'AIzaSyB3s_ZKT9Pxwhj15Y68sfxZf6f4fTavhqk' });
+
 
 interface SignalCopyProps {
   signal: boolean;
@@ -341,28 +341,31 @@ ${obs}
         signal: true,
         text: "Erro! Tente novamente",
       });
+        toast.dismiss();
       toast.error("Cota por minuto excedida, ou erro de servidor");
+    
       setTimeout(() => {
         setSignalProcessando({
           signal: false,
           text: "Gerar mensagem",
         });
+
+
+        
       }, 3000);
     }
   }
 
   async function perguntar(prompt: string): Promise<string | undefined> {
-    try {
-      const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash",
-        contents: prompt,
-      });
-
-      return response.text;
-    } catch (error) {
-      console.error(error);
-      return undefined;
-    }
+    let response = await fetch('/api/promptlive', {
+      method: 'POST',
+      headers: {
+        'Content-Type' : 'application/json'
+      },
+      body: JSON.stringify({prompt})
+    } )
+    let resFormat = await response.text()
+    return resFormat
   }
 
   async function handleCopyLinkLive() {
