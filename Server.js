@@ -3,7 +3,7 @@ import dotenv from 'dotenv'
 import { initializeApp } from 'firebase/app';
 import { collection, getDocs, getFirestore } from 'firebase/firestore';
 import { GoogleGenAI } from '@google/genai';
-import cors from 'cors'
+
 dotenv.config()
 
 
@@ -61,6 +61,20 @@ appServer.post('/promptlive', async (req, res) => {
       console.log(error)
     }
   
+})
+
+import path from 'path'
+import { fileURLToPath } from 'url'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
+
+appServer.use(express.static(path.join(__dirname, 'dist')))
+
+
+appServer.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'))
 })
 
 const port = process.env.PORT || 8080
