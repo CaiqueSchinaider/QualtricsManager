@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Button from "../Misc/Button";
 import Text from "../Misc/Text";
-import { GoogleGenAI } from "@google/genai";
+
 import toast from "react-hot-toast";
 import PopUp from "./PopUp";
 import { motion } from "framer-motion";
@@ -16,7 +16,7 @@ interface SignalTranslatePopUpProps {
 }
 
 
-const ai = new GoogleGenAI({ apiKey: 'AIzaSyB3s_ZKT9Pxwhj15Y68sfxZf6f4fTavhqk'});
+
 
 interface TranslatePopUpProps {
   minimize: () => void
@@ -160,18 +160,17 @@ export default function TranslatePopUp(props: TranslatePopUpProps) {
   }
   
   async function perguntar(prompt: string): Promise<string | undefined> {
-      try {
-        const response = await ai.models.generateContent({
-          model: "gemini-2.5-flash",
-          contents: prompt,
-        });
+    let response = await fetch('https://qualtricsmanager.onrender.com/api/promptlive', {
+      method: 'POST',
+      headers: {
+        'Content-Type' : 'application/json'
+      },
+      body: JSON.stringify({prompt})
+    } )
+    let resFormat = await response.text()
+    return resFormat
+  }
 
-        return response.text;
-      } catch (error) {
-        console.error(error);
-        return undefined;
-      }
-    }
 
  function getBackupText() {
     let isBackupText = localStorage.getItem("backupTranslate");

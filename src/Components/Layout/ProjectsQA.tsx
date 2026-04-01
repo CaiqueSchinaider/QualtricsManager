@@ -3,7 +3,7 @@ import Button from "../Misc/Button";
 import Text from "../Misc/Text";
 import toast from "react-hot-toast";
 import PopUp from "./PopUp";
-import { GoogleGenAI } from "@google/genai";
+
 import { motion } from "framer-motion";
 
 interface copySignalProps {
@@ -17,7 +17,7 @@ interface SignalProcessandoProps {
 }
 
 
-const ai = new GoogleGenAI({ apiKey: 'AIzaSyB3s_ZKT9Pxwhj15Y68sfxZf6f4fTavhqk' });
+
 
 export default function ProjectsQA() {
   const [idioma, setIdioma] = useState("Portugues");
@@ -260,19 +260,18 @@ ${textQa}
     }
   }
 
-  async function perguntar(prompt: string): Promise<string | undefined> {
-    try {
-      const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash",
-        contents: prompt,
-      });
-
-      return response.text;
-    } catch (error) {
-      console.error(error);
-      return undefined;
-    }
+    async function perguntar(prompt: string): Promise<string | undefined> {
+    let response = await fetch('https://qualtricsmanager.onrender.com/api/promptlive', {
+      method: 'POST',
+      headers: {
+        'Content-Type' : 'application/json'
+      },
+      body: JSON.stringify({prompt})
+    } )
+    let resFormat = await response.text()
+    return resFormat
   }
+
 
   async function handleFormatQa() {
     if (textQa === "" || textQa.length < 10) {

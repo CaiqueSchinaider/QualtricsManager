@@ -356,7 +356,7 @@ ${obs}
   }
 
   async function perguntar(prompt: string): Promise<string | undefined> {
-    let response = await fetch('/api/promptlive', {
+    let response = await fetch('https://qualtricsmanager.onrender.com/api/promptlive', {
       method: 'POST',
       headers: {
         'Content-Type' : 'application/json'

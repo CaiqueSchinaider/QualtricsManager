@@ -28,7 +28,7 @@ const appServer = express()
 
 appServer.use(express.json())
 
-appServer.get('https://qualtricsmanager.onrender.com/api/scripts', async (req, res) => {
+appServer.get('/api/scripts', async (req, res) => {
     let docsCompact = collection(db, 'scripts')
     let docsList = await getDocs(docsCompact)
     let docsFor = docsList.docs.map((docDB) => ({id: docDB.id, ...docDB.data()}))
@@ -37,7 +37,7 @@ appServer.get('https://qualtricsmanager.onrender.com/api/scripts', async (req, r
     
 
 })
-appServer.get('https://qualtricsmanager.onrender.com/api/layouts', async (req, res) => {''
+appServer.get('/api/layouts', async (req, res) => {''
     let docsCompact = collection(db, 'structures')
     let docsList = await getDocs(docsCompact)
     let docsFor = docsList.docs.map((docDB) => ({id: docDB.id, ...docDB.data()}))
@@ -46,7 +46,7 @@ appServer.get('https://qualtricsmanager.onrender.com/api/layouts', async (req, r
 
 })
 
-appServer.post('https://qualtricsmanager.onrender.com/api/promptlive', async (req, res) => {
+appServer.post('/api/promptlive', async (req, res) => {
       const {prompt} = req.body
     try {
       const response = await ai.models.generateContent({
