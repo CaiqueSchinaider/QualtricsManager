@@ -28,7 +28,7 @@ const appServer = express()
 
 appServer.use(express.json())
 
-appServer.get('/scripts', async (req, res) => {
+appServer.get('https://qualtricsmanager.onrender.com/api/scripts', async (req, res) => {
     let docsCompact = collection(db, 'scripts')
     let docsList = await getDocs(docsCompact)
     let docsFor = docsList.docs.map((docDB) => ({id: docDB.id, ...docDB.data()}))
@@ -37,7 +37,7 @@ appServer.get('/scripts', async (req, res) => {
     
 
 })
-appServer.get('/layouts', async (req, res) => {
+appServer.get('https://qualtricsmanager.onrender.com/api/layouts', async (req, res) => {''
     let docsCompact = collection(db, 'structures')
     let docsList = await getDocs(docsCompact)
     let docsFor = docsList.docs.map((docDB) => ({id: docDB.id, ...docDB.data()}))
@@ -46,7 +46,7 @@ appServer.get('/layouts', async (req, res) => {
 
 })
 
-appServer.post('/promptlive', async (req, res) => {
+appServer.post('https://qualtricsmanager.onrender.com/api/promptlive', async (req, res) => {
       const {prompt} = req.body
     try {
       const response = await ai.models.generateContent({
@@ -71,7 +71,6 @@ const __dirname = path.dirname(__filename)
 
 appServer.use(express.static(path.join(__dirname, 'dist')))
 
-// 🔥 Fallback correto (Express 5)
 appServer.use((req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'))
 })
