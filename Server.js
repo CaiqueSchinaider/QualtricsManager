@@ -5,11 +5,9 @@ import { collection, getDocs, getFirestore } from 'firebase/firestore';
 import { GoogleGenAI } from '@google/genai';
 import path from 'path'
 import { fileURLToPath } from 'url'
+import cors from "cors";
 
 dotenv.config()
-
-
-
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY_GOOGLEGEN });
 const firebaseConfig = {
   apiKey: process.env.API_KEY_FIREBASE,
@@ -21,16 +19,17 @@ const firebaseConfig = {
   measurementId: "G-HC3JRGNFSH"
 };
 
+
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const appServer = express()
 
-import cors from "cors";
+const appServer = express()
 
 appServer.use(cors({
   origin: "https://qualtrics-manager.vercel.app"
 }));
+
 appServer.use(express.json())
 
 appServer.get('/api/scripts', async (req, res) => {
@@ -39,16 +38,12 @@ appServer.get('/api/scripts', async (req, res) => {
     let docsFor = docsList.docs.map((docDB) => ({id: docDB.id, ...docDB.data()}))
     res.header('Content-Type','text/json')
     res.status(200).json(docsFor)
-    
-
 })
 appServer.get('/api/layouts', async (req, res) => {''
     let docsCompact = collection(db, 'structures')
     let docsList = await getDocs(docsCompact)
     let docsFor = docsList.docs.map((docDB) => ({id: docDB.id, ...docDB.data()}))
     res.status(200).json(docsFor)
-    
-
 })
 
 appServer.post('/api/promptlive', async (req, res) => {
