@@ -1,73 +1,41 @@
-# React + TypeScript + Vite
+# Qualtrics Manager
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Dashboard minimalista para organização de anotações, criação e tradução de mensagens com IA, além de ferramentas e scripts de apoio para uso com Qualtrics.
 
-Currently, two official plugins are available:
+## 🚀 Funcionalidades
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+* Inserção facilitada de parâmetros em links internos com formatação padronizada de mensagens.
 
-## React Compiler
+* Área de anotações com suporte a IA para:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+  * Padronização de texto
+  * Tradução (Português, Inglês e Espanhol)
+  * Correção de erros
+  * Salvamento local automático
 
-## Expanding the ESLint configuration
+* Biblioteca de scripts e estruturas frequentemente utilizadas, com explicações para facilitar o uso.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+* Ferramentas de manipulação de imagens:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+  * Conversão de formatos (webp, png, jpeg)
+  * Redimensionamento
+  * Ajuste de qualidade
+  * Modos como: priorizar velocidade, qualidade ou upscale (sem IA)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+* Sistema de cards personalizáveis com suporte a scripts e organização de conteúdo.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+* Download rápido de bases internas utilizadas no projeto.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+* Tradução rápida de textos com IA:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+  * Idiomas: Português, Inglês e Espanhol
+  * Tons: neutro ou formal
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## ⚠️ Observações
+
+* Funcionalidades baseadas em IA podem apresentar imprecisões.
+* Projeto ainda em desenvolvimento, podendo conter erros ou conteúdos desatualizados.
+
+## 📌 Status
+
+Em desenvolvimento 🚧

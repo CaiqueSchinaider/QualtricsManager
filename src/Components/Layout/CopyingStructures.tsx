@@ -3,6 +3,7 @@ import Text from "../Misc/Text";
 import getDataFirebase from "../../getFirebase";
 import PopUp from "./PopUp";
 import { motion } from "framer-motion";
+
 interface StructureProps {
     html: string;
     script: string;
@@ -20,20 +21,6 @@ interface viewSignalProps {
 export default function CopyingStructures() {
     const [structures, setStructures] = useState<StructureProps[]>([])
     const [width, setWidth] = useState<number>(innerWidth)
-
-    useEffect(() => {
-  function handleResize() {
-    setWidth(window.innerWidth)
-    
-  }
-
-  window.addEventListener("resize", handleResize)
-
-  return () => {
-    window.removeEventListener("resize", handleResize)
-  }
-}, [])
-
     const [viewSignal, setViewSignal] = useState<viewSignalProps>({
         signal:  false,
         scriptText: '',
@@ -42,16 +29,32 @@ export default function CopyingStructures() {
     })
 
 
+
+    useEffect(() => {
+        function handleResize() {
+            setWidth(window.innerWidth)
+        
+        }
+
+        window.addEventListener("resize", handleResize)
+
+        return () => {
+            window.removeEventListener("resize", handleResize)
+        }
+    }, [])
+
+
      useEffect(() => {
             getData() 
     },[])
 
-        async function getData() {
-         let dados = await getDataFirebase('layouts')
-         if (dados) {
-             setStructures(dados)
-         }
+
+    async function getData() {
+        let dados = await getDataFirebase('layouts')
+        if (dados) {
+            setStructures(dados)
         }
+    }
 
 
     return (

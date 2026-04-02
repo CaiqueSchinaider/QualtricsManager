@@ -6,6 +6,7 @@ import { GoogleGenAI } from '@google/genai';
 import path from 'path'
 import { fileURLToPath } from 'url'
 import cors from "cors";
+import { error } from 'console';
 
 dotenv.config()
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY_GOOGLEGEN });
@@ -22,23 +23,49 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
+var isDev = false
 
 const appServer = express()
 
 appServer.use(cors({
-  origin: "https://qualtrics-manager.vercel.app"
+  origin: ["https://qualtrics-manager.vercel.app","http://localhost:5173"]
 }));
 
 appServer.use(express.json())
 
+appServer.post('/api/users', async (req, res) => {
+  const {username, password} = req.body
+   let docsCompact = collection(db, 'users')
+    let docsList = await getDocs(docsCompact)
+    let docsFor = docsList.docs.map((docDB) => ({id: docDB.id, ...docDB.data()}))
+    let validUser = docsFor.find((user) => user.username === username && user.password == password)
+    if (validUser) {
+      res.status(200).json({signal: true, log: "Ok!"})
+      isDev = true
+    } else {
+      res.status(400).json({signal: false, log: "Usuario não existe"})
+      isDev = false
+    }
+})
+
 appServer.get('/api/scripts', async (req, res) => {
     let docsCompact = collection(db, 'scripts')
+    let scriptEx = [{name: 'Script de Exemplo', scriptImg: "percentage.webp", imgStyle: {filter: 'invert(45%)'}, info: 'Exemplo de campo de informação', script: `let contador = 0;
+    setInterval(() => {
+      contador++;
+      console.log(contador);
+    }, 1000);`}]
     let docsList = await getDocs(docsCompact)
     let docsFor = docsList.docs.map((docDB) => ({id: docDB.id, ...docDB.data()}))
     res.header('Content-Type','text/json')
-    res.status(200).json(docsFor)
+    if (isDev) {
+      res.status(200).json(docsFor)
+    } else (
+      
+      res.status(200).json(scriptEx)
+    )
 })
+
 appServer.get('/api/layouts', async (req, res) => {''
     let docsCompact = collection(db, 'structures')
     let docsList = await getDocs(docsCompact)
