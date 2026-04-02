@@ -26,6 +26,11 @@ const db = getFirestore(app);
 
 const appServer = express()
 
+import cors from "cors";
+
+app.use(cors({
+  origin: "https://qualtrics-manager.vercel.app"
+}));
 appServer.use(express.json())
 
 appServer.get('/api/scripts', async (req, res) => {
