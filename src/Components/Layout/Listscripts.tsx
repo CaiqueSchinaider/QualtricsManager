@@ -4,6 +4,7 @@ import Text from "../Misc/Text"
 import PopUp from "./PopUp";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
+import { useCredentials } from "../../Hooks/Credentials";
 
 interface viewSignalProps {
     signal: boolean;
@@ -25,7 +26,8 @@ interface scriptDB {
 export default function Listscripts() {
     const [scripts, setScripts] = useState<scriptDB[]>([])
     const [width, setWidth] = useState<number>(window.innerWidth) 
-    
+    const {credentials} = useCredentials()
+
    useEffect(() => {
   function handleResize() {
     setWidth(window.innerWidth)
@@ -50,15 +52,24 @@ export default function Listscripts() {
 
         useEffect(() => {
             getData() 
+            console.log(credentials)
         },[])
 
         async function getData() {
-         let dados = await getDataFirebase('scripts')
-         if (dados) {
-             setScripts(dados)
-         }
+            if (credentials && credentials.token) {
+                let dados = await getDataFirebase('scripts', credentials.token, credentials.username)
+                if (dados) {
+                    setScripts(dados)
+                }
+            } else {
+                
+                let dados = await getDataFirebase('scripts')
+                if (dados) {
+                    setScripts(dados)
+                }
+            
         }
-
+    }
 
         function handleCopyScript(textScript: string) {
             navigator.clipboard.writeText(textScript)

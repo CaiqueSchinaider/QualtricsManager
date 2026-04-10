@@ -19,6 +19,11 @@ interface SignalProcessandoProps {
   text: string;
 }
 
+type ResponseIA = {
+  text: string,
+  signal: boolean
+}
+
 export default function CreateLinkLive() {
   const [width, setWidth] = useState<number>(window.innerWidth);
   const [height, setHeight] = useState<number>(window.innerHeight);
@@ -324,11 +329,12 @@ ${obs}
     });
     const resposta = await perguntar(prompt);
 
-    if (resposta) {
+    if (resposta.signal) {
       setSignalCopy({
         signal: true,
-        resposta: resposta,
+        resposta: resposta.text,
       });
+      
       toast.dismiss();
       toast.success("Mensagem de link LIVE gerada");
       setSignalProcessando({
@@ -348,22 +354,25 @@ ${obs}
           signal: false,
           text: "Gerar mensagem",
         });
-
-
-        
       }, 3000);
     }
   }
 
-  async function perguntar(prompt: string): Promise<string | undefined> {
-    let response = await fetch('https://qualtricsmanager.onrender.com/api/promptlive', {
+  async function perguntar(prompt: string): Promise<ResponseIA> {
+    let response = await fetch('http://localhost:8080/api/promptlive', {
       method: 'POST',
       headers: {
         'Content-Type' : 'application/json'
       },
       body: JSON.stringify({prompt})
     } )
-    let resFormat = await response.text()
+    if (!response.ok) {
+      return {
+        text: '',
+        signal: false,
+      }
+    }
+    let resFormat: ResponseIA = await response.json()
     return resFormat
   }
 

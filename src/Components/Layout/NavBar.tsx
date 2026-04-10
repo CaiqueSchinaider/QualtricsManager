@@ -2,14 +2,24 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Button from "../Misc/Button";
 import Text from "../Misc/Text";
 import { useEffect, useState } from "react";
+import { useCredentials } from "../../Hooks/Credentials";
+import toast from "react-hot-toast";
 
 interface NavBarProps {
   signalMinimize: boolean;
 }
 
+type AuthDownload = {
+  authorized: boolean
+}
+
+
+
+
 export default function NavBar({ signalMinimize }: NavBarProps) {
   const [width, setWidth] = useState<number>(window.innerWidth);
   const [height, setHeight] = useState<number>(window.innerHeight);
+  const {credentials} = useCredentials()
   let navigate = useNavigate();
   let location = useLocation();
   let currentLocation = location.pathname;
@@ -20,19 +30,47 @@ export default function NavBar({ signalMinimize }: NavBarProps) {
     setHeight(window.innerHeight)
   }
 
+
+  
   window.addEventListener("resize", handleResize)
 
   return () => {
     window.removeEventListener("resize", handleResize)
   }
 }, [])
-  function downloadBase() {
-    const link = document.createElement("a");
-    link.href = "/files/BASE_SURVEY_NEW.qsf";
-    link.download = "BASE_SURVEY_NEW.qsf.qsf";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+
+
+  async function downloadBase(id: number): Promise<Blob | void> {
+  if (credentials && credentials.username && credentials.token) {
+    try {   
+      let auth = await fetch('http://localhost:8080/api/download', {
+        method: 'POST',
+        headers: {
+           'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify({
+          username: credentials.username,
+          token: credentials.token,
+          archiveID: id
+        })
+      } )
+        if (auth.ok) {
+          let response: Blob = await auth.blob()
+          return response
+        } else {
+          
+          return 
+        }
+    } catch {
+      toast.dismissAll()
+      toast.error('Erro de servidor')
+      return
+    }
+  } else {
+    toast.dismissAll()
+    toast.error('Você não possui acesso')
+    return
+  }
   }
 
   return (
@@ -97,7 +135,7 @@ export default function NavBar({ signalMinimize }: NavBarProps) {
           className="min-h-15"
           activate={currentLocation === "/layouts"}
         />
-        {height >= 720 ?  ( <button className="bottom-5 absolute w-48 h-15 border-schin-cyan rounded-2xl border text-schin-cyan flex flex-row items-center justify-center gap-2 cursor-pointer hover:scale-98 duration-105 transition-all" onClick={() => downloadBase()}>
+        {height >= 720 ?  ( <button className="bottom-5 absolute w-48 h-15 border-schin-cyan rounded-2xl border text-schin-cyan flex flex-row items-center justify-center gap-2 cursor-pointer hover:scale-98 duration-105 transition-all" onClick={() => downloadBase(1)}>
             <img src="downloadicon.png" className="w-7"/>
             <Text size="small">
             Baixar Base Survey

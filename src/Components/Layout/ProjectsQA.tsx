@@ -16,6 +16,10 @@ interface SignalProcessandoProps {
   text: string;
 }
 
+type ResponseIA = {
+  text: string,
+  signal: boolean
+}
 
 
 
@@ -260,15 +264,15 @@ ${textQa}
     }
   }
 
-    async function perguntar(prompt: string): Promise<string | undefined> {
-    let response = await fetch('https://qualtricsmanager.onrender.com/api/promptlive', {
+    async function perguntar(prompt: string): Promise<ResponseIA> {
+    let response = await fetch('http://localhost:8080/api/promptlive', {
       method: 'POST',
       headers: {
         'Content-Type' : 'application/json'
       },
       body: JSON.stringify({prompt})
     } )
-    let resFormat = await response.text()
+    let resFormat: ResponseIA = await response.json()
     return resFormat
   }
 
@@ -284,20 +288,21 @@ ${textQa}
     });
     toast.loading("Gerando mensagem aguarde...");
     let resposta = await perguntar(prompt);
-
-    toast.loading("Gerando formatação...");
-
-    if (resposta) {
+    if (resposta.signal) {
       setCopySignal({
         signal: true,
-        resposta: resposta,
+        resposta: resposta.text,
       });
       setSignalProcessando({
         signal: false,
         text: "Formatar com IA",
       });
       toast.dismiss();
-      toast.success("Texto formatado");
+      toast.success("Mensagem gerada");
+    } else {
+      toast.dismiss();
+      toast.error("Erro ao gerar mensagem");
+
     }
   }
 

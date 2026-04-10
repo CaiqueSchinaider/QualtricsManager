@@ -5,10 +5,16 @@ import TranslateButton from "../Components/Misc/TranslateButton";
 import TranslatePopUp from "../Components/Layout/TranslatePopUp";
 import Text from "../Components/Misc/Text";
 import LoginPopUp from "../Components/Layout/LoginPopUp";
+import { useCredentials } from "../Hooks/Credentials";
+import toast from "react-hot-toast";
 
+type AuthDownload = {
+  authorized: boolean
+}
 
 export default function HomePage() {
   const [minimize, setMinimize] = useState<boolean>(false);
+  const {credentials} = useCredentials()
   const [translateSignal, setTranslateSignal] = useState<boolean>(false);
   const [width, setWidth] = useState<number>(window.innerWidth);
   const [height, setHeight] = useState<number>(window.innerHeight);
@@ -18,16 +24,41 @@ export default function HomePage() {
 
   });
   
-  const [login, setLogin] = useState(true)
+  const [login, setLogin] = useState(false)
   const [popUpLogin, setPopUpLogin] = useState(false)
 
- function downloadBase() {
-    const link = document.createElement("a");
-    link.href = "/files/BASE_SURVEY_NEW.qsf";
-    link.download = "BASE_SURVEY_NEW.qsf.qsf";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+
+  async function downloadBase(id: number): Promise<Blob | void> {
+  if (credentials && credentials.username && credentials.token) {
+    try {   
+      let auth = await fetch('http://localhost:8080/api/download', {
+        method: 'POST',
+        headers: {
+           'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify({
+          username: credentials.username,
+          token: credentials.token,
+          archiveID: id
+        })
+      } )
+        if (auth.ok) {
+          let response: Blob = await auth.blob()
+          return response
+        } else {
+          
+          return 
+        }
+    } catch {
+      toast.dismissAll()
+      toast.error('Erro de servidor')
+      return
+    }
+  } else {
+    toast.dismissAll()
+    toast.error('Você não possui acesso')
+    return
+  }
   }
 
   function handleMinimize() {
@@ -51,7 +82,7 @@ export default function HomePage() {
         />
         
       </button>
-    {height < 720 ? (  <button className="top-6 right-25 absolute w-48 h-13 border-schin-cyan rounded-2xl border text-schin-cyan flex flex-row items-center justify-center gap-2 cursor-pointer hover:scale-98 duration-105 transition-all" onClick={() => downloadBase()}>
+    {height < 720 ? (  <button className="top-6 right-25 absolute w-48 h-13 border-schin-cyan rounded-2xl border text-schin-cyan flex flex-row items-center justify-center gap-2 cursor-pointer hover:scale-98 duration-105 transition-all" onClick={() => downloadBase(1)}>
                   <img src="downloadicon.png" className="w-7"/>
                   <Text size="small">
                   Baixar Base Survey
@@ -80,7 +111,7 @@ export default function HomePage() {
         </picture>
         <div className=" w-full  h-100 flex justify-center items-start gap-10 pt-25">
             
-           <button className="  w-100 flex bg-schin-cyan justify-start items-center  rounded-2xl hover:scale-99 duration-300 transition-all cursor-pointer">
+           <button onClick={() => setLogin(true)} className="  w-100 flex bg-schin-cyan justify-start items-center  rounded-2xl hover:scale-99 duration-300 transition-all cursor-pointer">
               <div className=" w-30  min-w-30 h-30 min-h-30 rounded-3xl flex justify-center items-center">
               <img src="visitor.png" className="w-6/10 invert-11 " />
               </div>

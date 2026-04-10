@@ -15,6 +15,10 @@ interface SignalTranslatePopUpProps {
   text: string;
 }
 
+type ResponseIA = {
+  text: string,
+  signal: boolean
+}
 
 
 
@@ -91,7 +95,7 @@ export default function TranslatePopUp(props: TranslatePopUpProps) {
 
     8. Caso o conteúdo fornecido não faça sentido ou seja incoerente a ponto de não permitir tradução, responda apenas:
 
-    O texto fornecido não faz sentido.
+    O texto fornecido não faz sentido. (Porém se houver algum texto no meio que faça sentido, traduza ele e retira o que não faz.)
 
     9. Caso o texto tenha coisas como 'Test', 'LIVE' e/ou 'link' não deve traduzir essas palavras tem que continuar nesse idioma.
 
@@ -122,22 +126,22 @@ export default function TranslatePopUp(props: TranslatePopUpProps) {
     })
     toast.loading('Traduzindo...')
     const resposta = await perguntar(prompt)
-    if(resposta   &&  width > 1050) {
+    if(resposta.signal   &&  width > 1050) {
       toast.dismiss();
-      setTranslationText(resposta)
+      setTranslationText(resposta.text)
       toast.success('Tradução concluida')
       setSignalProcessando({
         signal: false,
         text: "Traduzir",
         
       })
-    } else if (resposta && width <= 1050) {
+    } else if (resposta.signal && width <= 1050) {
       toast.dismiss();
-      setTranslationText(resposta)
+      setTranslationText(resposta.text)
       toast.success('Tradução concluida')
       setTranslatePopUp({
         signal: true,
-        text: resposta,
+        text: resposta.text,
       })
       setSignalProcessando({
         signal: false,
@@ -147,9 +151,11 @@ export default function TranslatePopUp(props: TranslatePopUpProps) {
     } else {
        setSignalProcessando({
         signal: true,
-        text: "Erro! Tente novamente",
+        text: "Tente novamente",
       });
+      toast.dismissAll()
       toast.error("Cota por minuto excedida, ou erro de servidor");
+      console.error(resposta.text)
       setTimeout(() => {
         setSignalProcessando({
           signal: false,
@@ -159,15 +165,15 @@ export default function TranslatePopUp(props: TranslatePopUpProps) {
     }
   }
   
-  async function perguntar(prompt: string): Promise<string | undefined> {
-    let response = await fetch('https://qualtricsmanager.onrender.com/api/promptlive', {
+  async function perguntar(prompt: string): Promise<ResponseIA> {
+    let response = await fetch('http://localhost:8080/api/promptlive', {
       method: 'POST',
       headers: {
         'Content-Type' : 'application/json'
       },
       body: JSON.stringify({prompt})
     } )
-    let resFormat = await response.text()
+    let resFormat:ResponseIA = await response.json()
     return resFormat
   }
 

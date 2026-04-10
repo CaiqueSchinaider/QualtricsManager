@@ -5,11 +5,13 @@ import ProjectsQA from "../Components/Layout/ProjectsQA";
 import Listscripts from "../Components/Layout/Listscripts";
 import ImageFormat from "../Components/Layout/ImageFormat";
 import CopyingStructures from "../Components/Layout/CopyingStructures";
+import CredentialsProvider from "../Contexts/CredentialsContext";
 
 
 
 export default function AppRouter() {
     return (
+        <CredentialsProvider>
         <BrowserRouter>
             <Routes>
                 <Route  element={<HomePage/>} >
@@ -21,5 +23,6 @@ export default function AppRouter() {
                 </Route>
             </Routes>
         </BrowserRouter>
+        </CredentialsProvider>
     )
 }

@@ -1,10 +1,24 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Button from "../Misc/Button";
 import Input from "../Misc/Input";
+import { CredentialsContext } from "../../Contexts/CredentialsContext";
+import { useCredentials } from "../../Hooks/Credentials";
+import toast from "react-hot-toast";
 
 type LoginPopUpProps = {
     signalLogin: () => void
     signalback: () => void
+}
+
+// type Credentials = {
+//     username: string;
+//     token: number;
+// }
+
+type apiUsers = {
+    token:number
+    signal: boolean
+    log: string
 }
 
 export default function LoginPopUp({signalLogin, signalback}: LoginPopUpProps) {
@@ -12,11 +26,17 @@ export default function LoginPopUp({signalLogin, signalback}: LoginPopUpProps) {
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    
+     const {setCredentials} = useCredentials()
 
+    
 
     async function handleLogin() {
-        if (username == '') return;
-        if (password == '') return;
+        if (username == '' || password == '') {
+              toast.dismissAll()
+             toast.error("Preencha todos os campos")
+             return
+        }
 
         let response = await fetch('http://localhost:8080/api/users',{
            method: 'POST',
@@ -25,11 +45,19 @@ export default function LoginPopUp({signalLogin, signalback}: LoginPopUpProps) {
             },
             body: JSON.stringify({username: username, password: password})
         })
-        let signal = await response.json()
-        if (signal.signal) {
+      
+        let data: apiUsers = await response.json()
+        if (data.signal) {
             signalLogin()
+            setCredentials({
+                username: username,
+                token: data.token             
+            })
+             toast.dismissAll()
+             toast.success(data.log)
         } else {
-             console.log('error')
+            toast.dismissAll()
+             toast.error(data.log)
         }
     }
 
