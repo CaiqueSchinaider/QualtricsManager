@@ -2,12 +2,13 @@
   "name": "backend",
   "version": "1.0.0",
   "type": "module",
-  "main": "Server.js",
+  "main": "src/Server.js",
   "scripts": {
-    "start": "node Server.js"
+    "start": "node src/Server.js",
+    "build": "npm install"
   },
   "dependencies": {
-    "@google/genai": "^1.50.0",
+    "@google/generative-ai": "^0.21.0",
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
