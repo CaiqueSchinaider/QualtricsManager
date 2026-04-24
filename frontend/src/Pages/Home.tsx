@@ -31,7 +31,7 @@ export default function HomePage() {
   async function downloadBase(id: number): Promise<Blob | void> {
   if (credentials && credentials.username && credentials.token) {
     try {   
-      let auth = await fetch('http://localhost:8080/api/download', {
+      let auth = await fetch('/api/download', {
         method: 'POST',
         headers: {
            'Content-Type' : 'application/json'

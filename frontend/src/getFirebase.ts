@@ -1,6 +1,6 @@
 async function getDataFirebase(collection: string, token?: number | undefined, username?: string | undefined) {
   
-    let response = await fetch(`http://localhost:8080/api/${collection}`, {
+    let response = await fetch(`/api/${collection}`, {
         method: 'POST',
         headers: {
           'Content-Type' : 'application/json'
@@ -11,7 +11,7 @@ async function getDataFirebase(collection: string, token?: number | undefined, u
     let data = await response.json()
 
     return data
-
+ 
 }
 
 export default getDataFirebase;

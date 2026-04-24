@@ -1,7 +1,7 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import Button from "../Misc/Button";
 import Input from "../Misc/Input";
-import { CredentialsContext } from "../../Contexts/CredentialsContext";
+
 import { useCredentials } from "../../Hooks/Credentials";
 import toast from "react-hot-toast";
 
@@ -38,7 +38,7 @@ export default function LoginPopUp({signalLogin, signalback}: LoginPopUpProps) {
              return
         }
 
-        let response = await fetch('http://localhost:8080/api/users',{
+        let response = await fetch('/api/users', {
            method: 'POST',
             headers: {
                 "Content-Type": "application/json"

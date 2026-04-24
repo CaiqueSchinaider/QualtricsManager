@@ -1,14 +1,12 @@
 {
-  "name": "qualtricsmanager",
+  "name": "frontend",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
-    "preview": "vite preview",
-    "start": "node Server.js"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@codemirror/lang-javascript": "^6.2.5",
@@ -17,9 +15,6 @@
     "@uiw/react-codemirror": "^4.25.8",
     "axios": "^1.13.5",
     "browser-image-compression": "^2.0.2",
-    "cors": "^2.8.6",
-    "dotenv": "^17.3.1",
-    "express": "^5.2.1",
     "firebase": "^12.11.0",
     "framer-motion": "^12.36.0",
     "jszip": "^3.10.1",
