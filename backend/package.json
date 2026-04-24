@@ -2,9 +2,9 @@
   "name": "backend",
   "version": "1.0.0",
   "type": "module",
-  "main": "src/Server.js",
+  "main": "src/server.js",
   "scripts": {
-    "start": "node src/Server.js",
+    "start": "node src/server.js",
     "build": "npm install"
   },
   "dependencies": {
