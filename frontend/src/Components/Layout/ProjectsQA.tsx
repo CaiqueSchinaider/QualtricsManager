@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import PopUp from "./PopUp";
 
 import { motion } from "framer-motion";
+import { useCredentials } from "../../Hooks/Credentials";
 
 interface copySignalProps {
   signal: boolean;
@@ -22,6 +23,8 @@ type ResponseIA = {
 }
 
 type ParamsPrompt = {
+    username: string | undefined;
+    token: number | undefined;
     text: string;
     idioma: string;
     tipo: 'qa'
@@ -31,6 +34,7 @@ type ParamsPrompt = {
 export default function ProjectsQA() {
   const [idioma, setIdioma] = useState("Portugues");
   const [textQa, setTextQa] = useState("");
+  const {credentials} = useCredentials()
   const [promisseBackup, setPromisseBackup] = useState<boolean>(false);
   const [copySignal, setCopySignal] = useState<copySignalProps>({
     signal: false,
@@ -95,6 +99,8 @@ export default function ProjectsQA() {
     });
     toast.loading("Gerando mensagem aguarde...");
     let resposta = await perguntar({
+      username: credentials?.username || undefined,
+      token: credentials?.token || undefined,
       text: textQa,
       idioma: idioma,
       tipo: 'qa'

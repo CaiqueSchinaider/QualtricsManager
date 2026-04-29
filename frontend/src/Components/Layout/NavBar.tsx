@@ -9,13 +9,6 @@ interface NavBarProps {
   signalMinimize: boolean;
 }
 
-type AuthDownload = {
-  authorized: boolean
-}
-
-
-
-
 export default function NavBar({ signalMinimize }: NavBarProps) {
   const [width, setWidth] = useState<number>(window.innerWidth);
   const [height, setHeight] = useState<number>(window.innerHeight);
@@ -40,39 +33,46 @@ export default function NavBar({ signalMinimize }: NavBarProps) {
 }, [])
 
 
-  async function downloadBase(id: number): Promise<Blob | void> {
+async function downloadBase(id: number): Promise<void> {
   if (credentials && credentials.username && credentials.token) {
     try {   
-      let auth = await fetch('http://localhost:8080/api/download', {
+      let auth = await fetch('/api/download', {
         method: 'POST',
         headers: {
-           'Content-Type' : 'application/json'
+          'Content-Type' : 'application/json'
         },
         body: JSON.stringify({
           username: credentials.username,
           token: credentials.token,
           archiveID: id
         })
-      } )
-        if (auth.ok) {
-          let response: Blob = await auth.blob()
-          return response
-        } else {
-          
-          return 
-        }
+      })
+
+      if (auth.ok) {
+        let blob = await auth.blob()
+
+        const url = window.URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = 'BASE_SURVEY_NEW.qsf'
+        document.body.appendChild(a)
+        a.click()
+        a.remove()
+        window.URL.revokeObjectURL(url)
+      } else {
+        toast.dismissAll()
+        toast.error('Erro ao baixar arquivo')
+      }
+
     } catch {
       toast.dismissAll()
       toast.error('Erro de servidor')
-      return
     }
   } else {
     toast.dismissAll()
     toast.error('Você não possui acesso')
-    return
   }
-  }
-
+}
   return (
     <nav
       className={`

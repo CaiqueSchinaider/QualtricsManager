@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import Button from "../Misc/Button";
 import Text from "../Misc/Text";
-
 import toast from "react-hot-toast";
 import PopUp from "./PopUp";
 import { motion } from "framer-motion";
+import { useCredentials } from "../../Hooks/Credentials";
 
 interface SignalProcessandoProps {
   signal: boolean;
@@ -21,6 +21,8 @@ type ResponseIA = {
 }
 
 type ParamsPrompt = {
+    username: string | undefined;
+    token: number | undefined;
     text: string;
     idioma: string;
     tom: string;
@@ -33,7 +35,7 @@ interface TranslatePopUpProps {
 
 export default function TranslatePopUp(props: TranslatePopUpProps) {
   const [width, setWidth] = useState<number>(window.innerWidth)
-  
+  const {credentials} = useCredentials()
 
   window.addEventListener('resize', () => {
     setWidth(window.innerWidth)
@@ -93,6 +95,8 @@ export default function TranslatePopUp(props: TranslatePopUpProps) {
     })
     toast.loading('Traduzindo...')
     const resposta = await perguntar({
+      username: credentials?.username || undefined,
+      token: credentials?.token || undefined,
       text: text,
       idioma: idioma,
       tom: tom,

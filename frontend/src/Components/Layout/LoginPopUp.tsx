@@ -10,11 +10,6 @@ type LoginPopUpProps = {
     signalback: () => void
 }
 
-// type Credentials = {
-//     username: string;
-//     token: number;
-// }
-
 type apiUsers = {
     token:number
     signal: boolean
