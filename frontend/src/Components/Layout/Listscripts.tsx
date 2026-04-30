@@ -52,7 +52,7 @@ export default function Listscripts() {
 
         useEffect(() => {
             getData() 
-            console.log(credentials)
+           
         },[])
 
         async function getData() {
