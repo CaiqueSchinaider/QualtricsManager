@@ -10,7 +10,10 @@ import PromptTranslate from '../Prompts/TranslatePrompt.js'
 
 const appServer = express()
 appServer.use(cors({
-  origin: ["https://qualtricsmanager.onrender.com", "http://localhost:5173/"]
+  origin: [
+    "https://qualtrics-manager.vercel.app",
+    "http://localhost:5173"
+  ]
 }))
 appServer.use(express.json())
 
