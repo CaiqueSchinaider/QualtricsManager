@@ -50,7 +50,7 @@ export default function LoginPopUp({signalLogin, signalback}: LoginPopUpProps) {
             })
              toast.dismissAll()
              toast.success(data.log)
-        } else {
+        } else { 
             toast.dismissAll()
              toast.error(data.log)
         }

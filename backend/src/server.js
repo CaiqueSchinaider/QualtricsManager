@@ -25,7 +25,6 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 let usersSession = []
-
 function CreateToken() {
   let min = 100000
   let max = 999999
@@ -55,7 +54,6 @@ appServer.post('/api/users', async (req, res) => {
     usersSession.push({ username, token })
     return res.status(200).json({ signal: true, token, log: "Acesso permitido" })
   } catch (error) {
-    
     return res.status(500).json({ signal: false, log: "Erro interno" })
   }
 })
@@ -84,7 +82,6 @@ appServer.post('/api/scripts', async (req, res) => {
     const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
     res.status(200).json(data)
   } catch (error) {
-    console.error("ERRO SCRIPTS:", error)
     res.status(500).json({ log: "Erro scripts" })
   }
 })
@@ -95,7 +92,7 @@ appServer.post('/api/layouts', async (req, res) => {
     const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
     res.status(200).json(data)
   } catch (error) {
-    console.error("ERRO LAYOUTS:", error)
+    
     res.status(500).json({ log: "Erro layouts" })
   }
 })
@@ -190,7 +187,7 @@ appServer.post('/api/promptlive', async (req, res) => {
     })
 
   } catch (error) {
-    console.error("ERRO PROMPT:", error)
+  
 
     return res.status(500).json({
       text: '',
@@ -219,7 +216,7 @@ appServer.post('/api/parameters', async (req, res) => {
     return res.status(200).json(paramsDoc.param || [])
 
   } catch (error) {
-    console.error("ERRO PARAMETERS:", error)
+
     return res.status(200).json([])
   }
 })
