@@ -47,14 +47,13 @@ appServer.post('/api/users', async (req, res) => {
     const users = snapshot.docs.map(doc => doc.data())
     const validUser = users.find(u => u.username == username && u.password == password)
     if (!validUser) {
-      console.log('Usuarios:', users)
       return res.status(200).json({ signal: false, log: "Acesso negado" })
     }
     const token = CreateToken()
     usersSession.push({ username, token })
     return res.status(200).json({ signal: true, token, log: "Acesso permitido" })
   } catch (error) {
-    console.error("ERRO USERS:", error)
+    
     return res.status(500).json({ signal: false, log: "Erro interno" })
   }
 })
