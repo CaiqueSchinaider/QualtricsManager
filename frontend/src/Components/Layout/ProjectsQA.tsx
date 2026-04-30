@@ -76,7 +76,7 @@ export default function ProjectsQA() {
   }
 
     async function perguntar(ParamsPrompt: ParamsPrompt): Promise<ResponseIA> {
-    let response = await fetch('/api/promptlive', {
+    let response = await fetch('https://qualtricsmanager.onrender.com/api/promptlive', {
       method: 'POST',
       headers: {
         'Content-Type' : 'application/json'

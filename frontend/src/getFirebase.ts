@@ -1,6 +1,6 @@
 async function getDataFirebase(collection: string, token?: number | undefined, username?: string | undefined) {
   
-    let response = await fetch(`/api/${collection}`, {
+    let response = await fetch(`https://qualtricsmanager.onrender.com/api/${collection}`, {
         method: 'POST',
         headers: {
           'Content-Type' : 'application/json'

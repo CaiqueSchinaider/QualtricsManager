@@ -33,7 +33,7 @@ export default function LoginPopUp({signalLogin, signalback}: LoginPopUpProps) {
              return
         }
 
-        let response = await fetch('/api/users', {
+        let response = await fetch('https://qualtricsmanager.onrender.com/api/users', {
            method: 'POST',
             headers: {
                 "Content-Type": "application/json"
