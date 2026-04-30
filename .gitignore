@@ -12,7 +12,6 @@ dist
 dist-ssr
 *.local
 
-backend/Prompts/
 
 # Editor directories and files
 .vscode/*

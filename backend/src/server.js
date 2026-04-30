@@ -106,13 +106,17 @@ appServer.post('/api/promptlive', async (req, res) => {
 
       const session = usersSession.find(u => u.username == username && u.token == token)
 
-      const prompt = PromptLinkLive({
+      const prompt = await PromptLinkLive({
         obs,
         link,
         params,
         idioma,
         mode: session ? 'full' : 'generic'
       })
+
+      if (!prompt || prompt.trim() === '') {
+        return res.status(400).json({ signal: false, log: "Prompt vazio (live)" })
+      }
 
       const response = await ai.models.generateContent({
         model: "gemini-3-flash-preview",
@@ -128,12 +132,16 @@ appServer.post('/api/promptlive', async (req, res) => {
     if (tipo === 'translate') {
       const { text, idioma, tom } = req.body
 
-      const prompt = PromptTranslate({
+      const prompt = await PromptTranslate({
         text,
         idioma,
         tom,
         mode: 'full' 
       })
+
+      if (!prompt || prompt.trim() === '') {
+        return res.status(400).json({ signal: false, log: "Prompt vazio (translate)" })
+      }
 
       const response = await ai.models.generateContent({
         model: "gemini-3-flash-preview",
@@ -151,11 +159,15 @@ appServer.post('/api/promptlive', async (req, res) => {
 
       const session = usersSession.find(u => u.username == username && u.token == token)
 
-      const prompt = PromptTestesQa({
+      const prompt = await PromptTestesQa({
         idioma,
         text,
         mode: session ? 'full' : 'generic'
       })
+
+      if (!prompt || prompt.trim() === '') {
+        return res.status(400).json({ signal: false, log: "Prompt vazio (qa)" })
+      }
 
       const response = await ai.models.generateContent({
         model: "gemini-3-flash-preview",
@@ -176,7 +188,7 @@ appServer.post('/api/promptlive', async (req, res) => {
   } catch (error) {
     console.error("ERRO PROMPT:", error)
 
-    return res.status(200).json({
+    return res.status(500).json({
       text: '',
       signal: false
     })
@@ -222,6 +234,33 @@ appServer.post('/api/download', async (req, res) => {
   res.setHeader('Content-Type', 'application/octet-stream')
 
   res.download(filePath)
+})
+
+appServer.post('/api/prompts', async (req, res) => {
+  const { context, type } = req.body
+
+  if (!context || !type) {
+    return res.status(400).json({ log: "Dados incompletos" })
+  }
+
+  try {
+    const snapshot = await db.collection("prompts")
+      .where("context", "==", context)
+      .where("type", "==", type)
+      .limit(1)
+      .get()
+
+    if (snapshot.empty) {
+      return res.status(200).json({ prompt: '' })
+    }
+
+    const doc = snapshot.docs[0].data()
+
+    return res.status(200).json({ prompt: doc.prompt })
+
+  } catch (error) {
+    return res.status(500).json({ prompt: '' })
+  }
 })
 
 const port = process.env.PORT || 8080
