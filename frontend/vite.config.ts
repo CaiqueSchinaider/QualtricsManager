@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'https://qualtricsmanager.onrender.com/',
+        target: 'https://qualtricsmanager.onrender.com',
         changeOrigin: true,
         secure: false
       }
