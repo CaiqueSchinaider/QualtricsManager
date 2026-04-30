@@ -13,7 +13,9 @@ appServer.use(cors({
   origin: [
     "https://qualtrics-manager.vercel.app",
     "http://localhost:5173"
-  ]
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
 }))
 appServer.use(express.json())
 
