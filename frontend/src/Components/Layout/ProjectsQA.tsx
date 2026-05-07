@@ -27,7 +27,7 @@ type ParamsPrompt = {
     token: number | undefined;
     text: string;
     idioma: string;
-    tipo: 'qa'
+    type: 'qa'
 }
 
 
@@ -103,7 +103,7 @@ export default function ProjectsQA() {
       token: credentials?.token || undefined,
       text: textQa,
       idioma: idioma,
-      tipo: 'qa'
+      type: 'qa'
     });
     if (resposta.signal) {
       setCopySignal({

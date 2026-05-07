@@ -31,7 +31,7 @@ type ParamsPrompt = {
   link: string;
   params: string[];
   idioma: string;
-  tipo: "live";
+  type: "live";
 };
 
 export default function CreateLinkLive() {
@@ -139,7 +139,7 @@ export default function CreateLinkLive() {
       link: link,
       params: params,
       idioma: idioma,
-      tipo: "live",
+      type: "live",
     });
 
     if (resposta.signal) {

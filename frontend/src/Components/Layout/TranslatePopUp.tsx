@@ -26,7 +26,7 @@ type ParamsPrompt = {
     text: string;
     idioma: string;
     tom: string;
-    tipo: 'translate';
+    type: 'translate';
 }
 
 interface TranslatePopUpProps {
@@ -100,7 +100,7 @@ export default function TranslatePopUp(props: TranslatePopUpProps) {
       text: text,
       idioma: idioma,
       tom: tom,
-      tipo: 'translate'
+      type: 'translate'
     })
     if(resposta.signal   &&  width > 1050) {
       toast.dismiss();

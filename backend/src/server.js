@@ -98,11 +98,11 @@ appServer.post('/api/layouts', async (req, res) => {
 })
 
 appServer.post('/api/promptlive', async (req, res) => {
-  const { tipo } = req.body
+  const { type } = req.body
 
   try {
 
-    if (tipo === 'live') {
+    if (type === 'live') {
       const { username, token, obs, link, params, idioma } = req.body
 
       const session = usersSession.find(u => u.username == username && u.token == token)
@@ -130,7 +130,7 @@ appServer.post('/api/promptlive', async (req, res) => {
       })
     }
 
-    if (tipo === 'translate') {
+    if (type === 'translate') {
       const { text, idioma, tom } = req.body
 
       const prompt = await PromptTranslate({
@@ -155,7 +155,7 @@ appServer.post('/api/promptlive', async (req, res) => {
       })
     }
 
-    if (tipo === 'qa') {
+    if (type === 'qa') {
       const { username, token, text, idioma } = req.body
 
       const session = usersSession.find(u => u.username == username && u.token == token)
