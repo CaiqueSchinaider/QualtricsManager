@@ -180,6 +180,6 @@ appServer.post('/api/prompts', async (req, res) => {
 
 const port = process.env.PORT || 8080
 appServer.listen(port, () => {
-  // Mantive apenas o log de inicialização do servidor, que é útil para saber se o processo subiu.
+  
   console.log("Servidor rodando na porta", port)
 })
