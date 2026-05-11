@@ -1,7 +1,7 @@
 export default async function PromptTestesQa({ idioma, text, mode = 'full' }) {
 
 
-  const response = await fetch(`https://qualtricsmanager.onrender.com/api/prompts`, {
+  const response = await fetch(`http://localhost:8080/api/prompts`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

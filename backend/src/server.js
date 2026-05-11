@@ -60,23 +60,15 @@ appServer.post('/api/users', async (req, res) => {
 
 appServer.post('/api/scripts', async (req, res) => {
   const { username, token } = req.body
-
   const session = usersSession.find(u => u.username == username && u.token == token)
-
   if (!session) {
-    return res.status(200).json([
-      {
-        name: "Exemplo de Script",
-        script: "let count = 0;\nfor (let i = 0; i < 10; i++) {\n  count += i;\n}\nconsole.log(count);",
-        scriptImg: "code.png",
-        imgStyle: {
-          filter: "invert(48%)",
-          width: "40px"
-        }
-      }
-    ])
+    return res.status(200).json([{
+      name: "Exemplo de Script",
+      script: "let count = 0;\nfor (let i = 0; i < 10; i++) {\n  count += i;\n}\nconsole.log(count);",
+      scriptImg: "code.png",
+      imgStyle: { filter: "invert(48%)", width: "40px" }
+    }])
   }
-
   try {
     const snapshot = await db.collection("scripts").get()
     const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
@@ -92,173 +84,95 @@ appServer.post('/api/layouts', async (req, res) => {
     const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
     res.status(200).json(data)
   } catch (error) {
-    
     res.status(500).json({ log: "Erro layouts" })
   }
 })
 
 appServer.post('/api/promptlive', async (req, res) => {
   const { type } = req.body
-
   try {
-
     if (type === 'live') {
       const { username, token, obs, link, params, idioma } = req.body
-
       const session = usersSession.find(u => u.username == username && u.token == token)
-
-      const prompt = await PromptLinkLive({
-        obs,
-        link,
-        params,
-        idioma,
-        mode: session ? 'full' : 'generic'
-      })
-
+      const prompt = await PromptLinkLive({ obs, link, params, idioma, mode: session ? 'full' : 'generic' })
       if (!prompt || prompt.trim() === '') {
         return res.status(400).json({ signal: false, log: "Prompt vazio (live)" })
       }
-
-      const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
-        contents: prompt
-      })
-
-      return res.status(200).json({
-        text: response.text || '',
-        signal: true
-      })
+      const response = await ai.models.generateContent({ model: "gemini-3-flash-preview", contents: prompt })
+      return res.status(200).json({ text: response.text || '', signal: true })
     }
 
     if (type === 'translate') {
       const { text, idioma, tom } = req.body
-
-      const prompt = await PromptTranslate({
-        text,
-        idioma,
-        tom,
-        mode: 'full' 
-      })
-
+      const prompt = await PromptTranslate({ text, idioma, tom, mode: 'full' })
       if (!prompt || prompt.trim() === '') {
         return res.status(400).json({ signal: false, log: "Prompt vazio (translate)" })
       }
-
-      const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
-        contents: prompt
-      })
-
-      return res.status(200).json({
-        text: response.text || '',
-        signal: true
-      })
+      const response = await ai.models.generateContent({ model: "gemini-3-flash-preview", contents: prompt })
+      return res.status(200).json({ text: response.text || '', signal: true })
     }
 
     if (type === 'qa') {
       const { username, token, text, idioma } = req.body
-
       const session = usersSession.find(u => u.username == username && u.token == token)
-
-      const prompt = await PromptTestesQa({
-        idioma,
-        text,
-        mode: session ? 'full' : 'generic'
-      })
-
+      const prompt = await PromptTestesQa({ idioma, text, mode: session ? 'full' : 'generic' })
       if (!prompt || prompt.trim() === '') {
         return res.status(400).json({ signal: false, log: "Prompt vazio (qa)" })
       }
-
-      const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
-        contents: prompt
-      })
-
-      return res.status(200).json({
-        text: response.text || '',
-        signal: true
-      })
+      const response = await ai.models.generateContent({ model: "gemini-3-flash-preview", contents: prompt })
+      return res.status(200).json({ text: response.text || '', signal: true })
     }
-
-    return res.status(200).json({
-      text: '',
-      signal: false
-    })
-
+    return res.status(200).json({ text: '', signal: false })
   } catch (error) {
-  
-
-    return res.status(500).json({
-      text: '',
-      signal: false
-    })
+    return res.status(500).json({ text: '', signal: false })
   }
 })
 
 appServer.post('/api/parameters', async (req, res) => {
   const { username, token } = req.body
-
   const session = usersSession.find(u => u.username == username && u.token == token)
-
   try {
     const snapshot = await db.collection("parameters").get()
     const data = snapshot.docs.map(doc => doc.data())
-
     const group = session ? 'default' : 'generic'
-
     const paramsDoc = data.find(d => d.group === group)
-
     if (!paramsDoc) {
       return res.status(200).json([])
     }
-
     return res.status(200).json(paramsDoc.param || [])
-
   } catch (error) {
-
     return res.status(200).json([])
   }
 })
 
 appServer.post('/api/download', async (req, res) => {
   const { username, token } = req.body
-
   const session = usersSession.find(u => u.username == username && u.token == token)
   if (!session) {
     return res.status(403).json({ log: "Acesso negado" })
   }
-
   const filePath = path.join(__dirname, '..', 'Assets', 'BASE_SURVEY_NEW.qsf')
-
   res.setHeader('Content-Disposition', 'attachment; filename="BASE_SURVEY_NEW.qsf"')
   res.setHeader('Content-Type', 'application/octet-stream')
-
   res.download(filePath)
 })
 
 appServer.post('/api/prompts', async (req, res) => {
   const { context, type } = req.body
-
   if (!context || !type) {
     return res.status(400).json({ log: "Dados incompletos" })
   }
-
   try {
     const snapshot = await db.collection("prompts")
       .where("context", "==", context)
       .where("type", "==", type)
       .limit(1)
       .get()
-
     if (snapshot.empty) {
       return res.status(200).json({ prompt: '' })
     }
-
     const doc = snapshot.docs[0].data()
-
     return res.status(200).json({ prompt: doc.prompt })
-
   } catch (error) {
     return res.status(500).json({ prompt: '' })
   }
@@ -266,5 +180,6 @@ appServer.post('/api/prompts', async (req, res) => {
 
 const port = process.env.PORT || 8080
 appServer.listen(port, () => {
+  // Mantive apenas o log de inicialização do servidor, que é útil para saber se o processo subiu.
   console.log("Servidor rodando na porta", port)
 })

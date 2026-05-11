@@ -17,9 +17,8 @@ type apiUsers = {
     log: string
 }
 
-export default function LoginPopUp({signalLogin, signalback}: LoginPopUpProps) {
 
-
+    export default function LoginPopUp({signalLogin, signalback}: LoginPopUpProps) {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [checking, setChecking] = useState(false)
@@ -42,13 +41,16 @@ export default function LoginPopUp({signalLogin, signalback}: LoginPopUpProps) {
 
 
 
-        let response = await fetch('https://qualtricsmanager.onrender.com/api/users', {
-           method: 'POST',
+        let response = await fetch('/api/users', {
+            method: 'POST',
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({username: username, password: password})
-        })
+            body: JSON.stringify({
+                username: username,
+                password: password
+            })
+            })
     
         let data: apiUsers = await response.json()
         if (data.signal) {
