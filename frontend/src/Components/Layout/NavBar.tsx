@@ -37,7 +37,7 @@ export default function NavBar({ signalMinimize }: NavBarProps) {
 async function downloadBase(id: number): Promise<void> {
   if (credentials && credentials.username && credentials.token) {
     try {   
-      let auth = await fetch(`${API_URL}/api/download`, {
+      let auth = await fetch(`${API_URL}/download`, {
         method: 'POST',
         headers: {
           'Content-Type' : 'application/json'
