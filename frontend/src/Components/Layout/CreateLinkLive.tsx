@@ -173,7 +173,7 @@ export default function CreateLinkLive() {
   }
 
   async function perguntar(paramsPrompt: ParamsPrompt): Promise<ResponseIA> {
-    let response = await fetch(`${API_URL}/promptlive`, {
+    let response = await fetch(`${API_URL}/api/promptlive`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

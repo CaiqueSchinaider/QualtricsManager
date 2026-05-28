@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 
 
 export default function HomePage() {
+  const API_URL = import.meta.env.VITE_API_URL
   const [minimize, setMinimize] = useState<boolean>(false);
   const {credentials} = useCredentials()
   const [translateSignal, setTranslateSignal] = useState<boolean>(false);
@@ -45,7 +46,7 @@ export default function HomePage() {
 async function downloadBase(id: number): Promise<void> {
   if (credentials && credentials.username && credentials.token) {
     try {   
-      let auth = await fetch('https://qualtricsmanager.onrender.com/api/download', {
+      let auth = await fetch(`${API_URL}/api/download`, {
         method: 'POST',
         headers: {
           'Content-Type' : 'application/json'

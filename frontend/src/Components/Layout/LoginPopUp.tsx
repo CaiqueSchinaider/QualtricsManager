@@ -42,7 +42,7 @@ type apiUsers = {
 
 
 
-        let response = await fetch(`${API_URL}/users`, {
+        let response = await fetch(`${API_URL}/api/users`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json"

@@ -76,7 +76,7 @@ export default function TranslatePopUp(props: TranslatePopUpProps) {
 
 
   async function perguntar(ParamsPrompt: ParamsPrompt): Promise<ResponseIA> {
-    let response = await fetch(`${API_URL}/promptlive`, {
+    let response = await fetch(`${API_URL}/api/promptlive`, {
       method: 'POST',
       headers: {
         'Content-Type' : 'application/json'
