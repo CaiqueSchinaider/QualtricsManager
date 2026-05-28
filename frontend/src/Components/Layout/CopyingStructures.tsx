@@ -19,6 +19,7 @@ interface viewSignalProps {
 }
 
 export default function CopyingStructures() {
+  
     const [structures, setStructures] = useState<StructureProps[]>([])
     const [width, setWidth] = useState<number>(innerWidth)
     const [viewSignal, setViewSignal] = useState<viewSignalProps>({

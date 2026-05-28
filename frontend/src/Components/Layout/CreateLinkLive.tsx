@@ -35,6 +35,7 @@ type ParamsPrompt = {
 };
 
 export default function CreateLinkLive() {
+  const API_URL = import.meta.env.VITE_API_URL
   const [width, setWidth] = useState<number>(window.innerWidth);
   const [height, setHeight] = useState<number>(window.innerHeight);
   const { credentials } = useCredentials();
@@ -172,7 +173,7 @@ export default function CreateLinkLive() {
   }
 
   async function perguntar(paramsPrompt: ParamsPrompt): Promise<ResponseIA> {
-    let response = await fetch("https://qualtricsmanager.onrender.com/api/promptlive", {
+    let response = await fetch(`${API_URL}/api/promptlive`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

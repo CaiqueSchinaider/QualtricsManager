@@ -10,6 +10,7 @@ interface NavBarProps {
 }
 
 export default function NavBar({ signalMinimize }: NavBarProps) {
+  const API_URL = import.meta.env.VITE_API_URL
   const [width, setWidth] = useState<number>(window.innerWidth);
   const [height, setHeight] = useState<number>(window.innerHeight);
   const {credentials} = useCredentials()
@@ -36,7 +37,7 @@ export default function NavBar({ signalMinimize }: NavBarProps) {
 async function downloadBase(id: number): Promise<void> {
   if (credentials && credentials.username && credentials.token) {
     try {   
-      let auth = await fetch('https://qualtricsmanager.onrender.com/api/download', {
+      let auth = await fetch(`${API_URL}/api/download`, {
         method: 'POST',
         headers: {
           'Content-Type' : 'application/json'

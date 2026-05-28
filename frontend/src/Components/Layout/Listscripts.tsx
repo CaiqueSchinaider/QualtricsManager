@@ -24,6 +24,7 @@ interface scriptDB {
 }
 
 export default function Listscripts() {
+    
     const [scripts, setScripts] = useState<scriptDB[]>([])
     const [width, setWidth] = useState<number>(window.innerWidth) 
     const {credentials} = useCredentials()

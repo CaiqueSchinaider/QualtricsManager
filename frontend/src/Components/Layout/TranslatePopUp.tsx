@@ -34,6 +34,7 @@ interface TranslatePopUpProps {
 }
 
 export default function TranslatePopUp(props: TranslatePopUpProps) {
+  const API_URL = import.meta.env.VITE_API_URL
   const [width, setWidth] = useState<number>(window.innerWidth)
   const {credentials} = useCredentials()
 
@@ -75,7 +76,7 @@ export default function TranslatePopUp(props: TranslatePopUpProps) {
 
 
   async function perguntar(ParamsPrompt: ParamsPrompt): Promise<ResponseIA> {
-    let response = await fetch('https://qualtricsmanager.onrender.com/api/promptlive', {
+    let response = await fetch(`${API_URL}/api/promptlive`, {
       method: 'POST',
       headers: {
         'Content-Type' : 'application/json'

@@ -1,6 +1,6 @@
 async function getDataFirebase(collection: string, token?: number | undefined, username?: string | undefined) {
-  
-    let response = await fetch(`/api/${collection}`, {
+  const API_URL = import.meta.env.VITE_API_URL
+    let response = await fetch(`${API_URL}/api/${collection}`, {
         method: 'POST',
         headers: {
           'Content-Type' : 'application/json'

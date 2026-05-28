@@ -19,6 +19,7 @@ type apiUsers = {
 
 
     export default function LoginPopUp({signalLogin, signalback}: LoginPopUpProps) {
+        const API_URL = import.meta.env.VITE_API_URL
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [checking, setChecking] = useState(false)
@@ -41,7 +42,7 @@ type apiUsers = {
 
 
 
-        let response = await fetch('/api/users', {
+        let response = await fetch(`${API_URL}/api/users`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json"

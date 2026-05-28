@@ -32,6 +32,7 @@ type ParamsPrompt = {
 
 
 export default function ProjectsQA() {
+  const API_URL = import.meta.env.VITE_API_URL
   const [idioma, setIdioma] = useState("Portugues");
   const [textQa, setTextQa] = useState("");
   const {credentials} = useCredentials()
@@ -76,7 +77,7 @@ export default function ProjectsQA() {
   }
 
     async function perguntar(ParamsPrompt: ParamsPrompt): Promise<ResponseIA> {
-    let response = await fetch('/api/promptlive', {
+    let response = await fetch(`${API_URL}/api/promptlive`, {
       method: 'POST',
       headers: {
         'Content-Type' : 'application/json'
